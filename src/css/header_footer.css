@@ -1,0 +1,153 @@
+/*global*/
+body {
+    background-color: black;
+    color: white;
+}
+
+b {
+    font-weight: 900
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.none {
+    display: none;
+}
+
+/*FIN global*/
+
+/*header*/
+header {
+    background: linear-gradient(to bottom, #000000, #000000, #191919);
+    background-size: cover;
+    overflow: hidden;
+    border-radius: 0 0 85% 85% / 40%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header>div {
+    margin-right: 50px;
+}
+
+h1 {
+    font-size: 60px;
+    text-align: center;
+    font-weight: 100;
+}
+
+.link-nav {
+    color: white;
+}
+
+li {
+    list-style: none;
+    display: flex;
+    float: left;
+    margin-right: 50px;
+    font-size: 18px;
+}
+
+.first-option-dropdown {
+    margin-top: 10px;
+}
+
+img#user-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+}
+
+/*menu desplegable deportes*/
+.dropdown {
+    display: inline-block;
+}
+
+.button-dropdown {
+    background-color: #6c788e;
+    border: none;
+}
+
+.button-dropdown:hover {
+    background-color: #8f98a8;
+}
+
+.dropdown-content {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    width: auto;
+    overflow: auto;
+    background-color: #6c788e;
+    font-size: 14px;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    color: #000000;
+    padding: 5px;
+}
+
+.dropdown-content a:hover {
+    background-color: #5d677a;
+}
+
+/*FIN menu desplegable deportes*/
+/*FIN header*/
+
+/*footer*/
+footer {
+    background-color: red;
+}
+
+footer>div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#box-title {
+    padding: 0px;
+    display: inline-block;
+    border-bottom: black solid 1px;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+#box-title>h3 {
+    font-size: 40px;
+    font-weight: 100;
+    margin-bottom: 10px;
+}
+
+#box-icons {
+    margin-top: 15px;
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.social-icon {
+    width: 40px;
+}
+
+#web-info {
+    background-color: #5d677a;
+    padding: 5px;
+}
+
+/*FIN footer*/
