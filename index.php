@@ -76,11 +76,12 @@ if (isset($_SESSION['user'])) {
             <section id="box-section-header">
                 <h3>Ejercítate en casa</h3>
                 <p>
-                    Comodidad y conveniencia: Hacer ejercicio en casa te brinda la comodidad de no tener que desplazarte a un gimnasio. Puedes adaptar tu horario de entrenamiento según tus necesidades y realizarlo en cualquier momento que te resulte conveniente. No tienes que preocuparte por el tráfico, los horarios de clase o las limitaciones de tiempo.<br><br>
+                   <b>Comodidad y conveniencia: </b>Hacer ejercicio en casa te brinda la comodidad de no tener que desplazarte a un gimnasio. Puedes adaptar tu horario de entrenamiento según tus necesidades y realizarlo en cualquier momento que te resulte conveniente. No tienes que preocuparte por el tráfico, los horarios de clase o las limitaciones de tiempo.<br><br>
 
-                    Ahorro económico: Hacer deporte en casa puede ser más económico a largo plazo. No tienes que pagar una membresía de gimnasio mensual o cuotas adicionales por clases especializadas. Además, no necesitas invertir en equipos costosos, ya que hay muchas rutinas de ejercicio que puedes realizar con tu propio peso corporal o con equipamiento básico y accesible.<br><br>
+                   <b>Ahorro económico: </b>Hacer deporte en casa puede ser más económico a largo plazo. No tienes que pagar una membresía de gimnasio mensual o cuotas adicionales por clases especializadas. Además, no necesitas invertir en equipos costosos, ya que hay muchas rutinas de ejercicio que puedes realizar con tu propio peso corporal o con equipamiento básico y accesible.<br><br>
 
-                    Privacidad y comodidad: Al hacer ejercicio en casa, tienes la ventaja de tener total privacidad. No tienes que preocuparte por la presencia de otras personas, lo que puede resultar especialmente beneficioso si te sientes cohibido o inseguro al hacer ejercicio en público. Puedes usar la ropa que prefieras,</p>
+                    <b>Privacidad y comodidad: </b>Al hacer ejercicio en casa, tienes la ventaja de tener total privacidad. No tienes que preocuparte por la presencia de otras personas, lo que puede resultar especialmente beneficioso si te sientes cohibido o inseguro al hacer ejercicio en público.
+                </p>
             </section>
             <section>
                 <img src="resources/imagenes/indexSection1.jpg" alt="ejercicio plancha">
@@ -88,17 +89,28 @@ if (isset($_SESSION['user'])) {
         </article>
         <article id="article2">
             <h2 class="none">article 2</h2>
-            <div id="texto"><i>"Superar niveles es el camino hacia la grandeza. Cada obstáculo superado, cada desafío vencido, te acerca un paso más a tus metas y sueños. Cada nivel conquistado es una prueba de tu valentía, determinación y capacidad para superar tus propios límites. No te desanimes ante las dificultades, porque cada una de ellas es una oportunidad para crecer y demostrar de lo que eres capaz. Mantén tu visión clara y tu espíritu indomable. ¡Demuestrales a todos y a ti mismo en lo que puedes llegar a convertirte trabajando desde casa!"</i></div>
             <section id="flex-container-index">
-                <div class="avanzado">Avanzado</div>
-                <div class="intermedio">Intermedio</div>
-                <div class="principiante">Principiante</div>
+                <div class="card-dificultad">
+                    <img src="resources/imagenes/indexSection2Principiante.jpg" alt="principiante">
+                    <span>Principiante</span>
+                    <p>Recuerda, cada campeón comenzó como un principiante, y tú estás en el camino para convertirte en uno. Habrá momentos en los que te sentirás agotado, desmotivado o incluso tentado a rendirte. Pero permíteme recordarte que dentro de ti hay una fuerza inquebrantable, una determinación que te llevará más allá de tus límites.</p>
+                </div>
+                <div class="card-dificultad">
+                    <img src="resources/imagenes/indexSection2Intermedio.jpg" alt="principiante">
+                    <span>Intermedio</span>
+                    <p>No te compares con los demás, tu único competidor eres tú mismo(a). Cada persona tiene su propio ritmo de progreso, y lo importante es que estás dando lo mejor de ti en cada entrenamiento y en cada competencia. Celebra tus avances y aprende de tus errores, ya que cada experiencia te brinda la oportunidad de mejorar.</p>
+                </div>
+                <div class="card-dificultad">
+                    <img src="resources/imagenes/indexSection2Avanzado.jpg" alt="principiante">
+                    <span>Avanzado</span>
+                    <p>No importa cuánto tiempo hayas estado involucrado(a) en el deporte, lo que importa es tu dedicación y tu pasión por mejorar. Cada día que te levantas y te esfuerzas por ser un poco mejor, estás marcando la diferencia. Aprecia y celebra cada pequeño logro en tu camino, ya que son los cimientos para construir grandes triunfos en el futuro.</p>
+                </div>
             </section>
 
             </div>
         </article>
-        <article>
-            <h2 class="none">article 3</h2>
+        <article id="article3">
+            <h2>Deportes</h2>
             <div id="container-article-3">
                 <?php
                 // parámetros db
@@ -120,9 +132,7 @@ if (isset($_SESSION['user'])) {
                         '
                         <section class="box">
                             <img src="resources/imagenes/clases/' . $registro['imagenClase'] . '" class="img-article3">
-                            <div class="descripcion">
-                                <p>' . $registro['descripcion'] . '</p>
-                            </div>
+                            <p class="descripcion">' . $registro['descripcion'] . '</p>
                             <span>' . $registro['nombreClase'] . '</span>
                         </section>
                         ';
@@ -134,7 +144,7 @@ if (isset($_SESSION['user'])) {
             </div>
         </article>
         <article id="article4">
-            <h2 class="none">article 4</h2>
+            <h2 class="none">contactanos</h2>
             <section>
                 <h3>CONTÁCTANOS</h3>
                 <div>
@@ -147,12 +157,8 @@ if (isset($_SESSION['user'])) {
                 </div>
             </section>
             <section>
-                <h3>PROPUESTAS</h3>
-                <form action="#" method="post">
-                    <textarea rows="10" cols="15" name="propuesta" required>Comenta</textarea>
-                    <input type="hidden" name="dni" value="<?php echo $usuario->dni ?>">
-                    <input type="button" value="Enviar">
-                </form>
+                <h3 class="none">foto</h3>
+                <img src="resources/imagenes/contactanos.jpg" alt="secretaria">
             </section>
         </article>
     </main>
@@ -172,7 +178,7 @@ if (isset($_SESSION['user'])) {
             </div>
         </div>
         <div id="web-info">
-            <span>Miquel Rodrigo Navarro | @Copyright | www.egym.com | v.01</span>
+            <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
         </div>
     </footer>
 </body>
