@@ -57,7 +57,7 @@ if ($EstaRegistrado) {
 
 
 //niveles de deporte
-$niveles = ['Principiante', 'Intermedio', 'Avanzado'];
+$niveles = ['principiante', 'intermedio', 'avanzado'];
 
 ?>
 
@@ -83,12 +83,11 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
         <div>
             <nav>
                 <ul>
-                    <li class="nav-li"><a href="#" class="link-nav">calculadora</a></li>
                     <li class="nav-li">
                         <div class="dropdown">
                             <span>deportes</span>
                             <div class="dropdown-content">
-                                <form action="src/deportes.php" method="post">
+                                <form action="deportes.php" method="post">
                                     <input type="hidden" name="deporte" value="Calistenia">
                                     <button type="submit" class="first-option-dropdown button-dropdown">calistenia</button>
                                 </form>
@@ -111,8 +110,6 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
                             </div>
                         </div>
                     </li>
-                    <li class="nav-li"><a href="#" class="link-nav">mapa web</a></li>
-                    <li class="nav-li"><a href="#" class="link-nav">accesibilidad</a></li>
                     <li class="nav-li"><a href="register_login.php" class="link-nav">logear/registrar</a></li>
                 </ul>
             </nav>
@@ -130,10 +127,12 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
 
     <main>
         <article id="deportes-resumen">
-            <h2 class="none">article 1</h2>
             <section id="box-section-header">
-                <h3><?php echo $clase->nombreClase ?></h3>
-                <p><?php echo $clase->descripcion ?></p>
+                <img src="../resources/imagenes/clases/<?php echo $clase->imagenClase ?>" alt="box">
+                <div>
+                    <h2><?php echo $clase->nombreClase ?></h2>
+                    <p><?php echo $clase->descripcion ?></p>
+                </div>
             </section>
             <section>
                 <div>
@@ -145,12 +144,12 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
                         echo
                         '
                         <div>
-                            <a href="subir_video.php">subir nuevo video</a>
+                            <a href="subir_video.php" id="no-morado">subir nuevo video</a>
                         </div>
                         ';
                     }
                 }
-                
+
                 ?>
             </section>
         </article>
@@ -159,8 +158,10 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
             echo
             '
             <article class="niveles-video">
-                <h2>Principiante</h2>
-                <section class="container-cards">
+            <div>
+                <div></div><h2>Principiante</h2><div></div>
+            </div>
+            <section class="container-cards">
                 ';
             foreach ($clase->videos as $video) { // una card por cada video
                 if (strcasecmp($video->nivel, 'Principiante') == 0) { // cuyo nivel sea igual al del article
@@ -174,36 +175,44 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
                     </div>
                     ';
                 }
-                echo '
-                </section>
-            </article>
-            ';
             }
+            echo '
+            </section>
+        </article>
+        ';
         } else {
             foreach ($niveles as $lv) { // un article por nivel, 3 en total
                 echo
                 '
-                <article class="niveles-video">
+            <article class="niveles-video">
+                <form method="post" action="forms/deportes.php">
+                    <input type="hidden" name="deporte" value="' . $clase->nombreClase . '">
+                <div>
+                    <div></div>
                     <h2>' . $lv . '</h2>
-                    <section class="container-cards">
+                    <button type="submit" name="nivel" value=' . $lv . ' class="button-lv">Soy nivel ' . $lv . '</button>
+                    <div></div>
+                </div>
+                <section class="container-cards">
                     ';
                 foreach ($clase->videos as $video) { // una card por cada video
-                    if (strcasecmp($video->nivel, $lv) == 0) { // cuyo nivel sea igual al del article
+                    if ($video->nivel == $lv) { // cuyo nivel sea igual al del article
                         echo
                         '
-                        <div class="card">
-                            <video width="320" height="240" controls>
-                                <source src="../resources/videos/' . $video->video . '" type="video/mp4">
-                            </video>
-                            <h3>' . $video->nombreVideo . '</h3>
-                        </div>
-                        ';
+                            <div class="card">
+                                <video controls>
+                                    <source src="../resources/videos/' . $video->video . '" type="video/mp4">
+                                </video>
+                                <h3>' . $video->nombreVideo . '</h3>
+                            </div>
+                            ';
                     }
-                    echo '
-                    </section>
+                }
+                echo '
+                        </section>
+                    </form>
                 </article>
                 ';
-                }
             }
         }
 
@@ -211,24 +220,22 @@ $niveles = ['Principiante', 'Intermedio', 'Avanzado'];
     </main>
 
     <footer>
-        <article>
-            <h2 class="none"></h2>
-            <section>
-                <div id="box-title">
-                    <h3><b>e</b>Gym</h3>
-                </div>
-                <div id="box-icons">
-                    <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
-                </div>
-            </section>
-        </article>
-        <article id="web-info">
-            <span>Miquel Rodrigo Navarro | @Copyright | www.egym.com | v.01</span>
-        </article>
+        <h2 class="none"></h2>
+        <div>
+            <div id="box-title">
+                <h3><b>e</b>Gym</h3>
+            </div>
+            <div id="box-icons">
+                <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+            </div>
+        </div>
+        <div id="web-info">
+            <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
+        </div>
     </footer>
 </body>
 

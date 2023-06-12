@@ -78,13 +78,13 @@ class Usuario
                     $update = $conexion->prepare('UPDATE usuarios SET :atributo = :valor WHERE dni = :dni');
 
                     $update->bindParam(':atributo', $atributo);
-                    $update->bindParam(':valor', $this->$atributo);
+                    $update->bindParam(':valor', $this->atributo);
                     $update->bindParam(':dni', $this->dni);
+                    $update->execute();
                 } catch (PDOException $e) {
                     echo 'Falló la conexión: ' . $e->getMessage();
                 }
             }
-
             return $this;
         }
     }

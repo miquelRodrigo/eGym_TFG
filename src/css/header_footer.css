@@ -1,8 +1,13 @@
 /*global*/
+*{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 body {
     background-color: black;
     color: white;
 }
+
 
 b {
     font-weight: 900
@@ -10,7 +15,6 @@ b {
 
 a {
     text-decoration: none;
-    color: black;
 }
 
 .none {
@@ -37,9 +41,10 @@ header>div {
 }
 
 h1 {
-    font-size: 60px;
+    font-size: 4em;
     text-align: center;
     font-weight: 100;
+    color: white;
 }
 
 .link-nav {
@@ -59,9 +64,10 @@ li {
 }
 
 img#user-image {
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
     border-radius: 100%;
+    filter: grayscale(100%);
 }
 
 /*menu desplegable deportes*/
@@ -70,12 +76,13 @@ img#user-image {
 }
 
 .button-dropdown {
-    background-color: #6c788e;
+    color: white;
+    background-color: #000000;
     border: none;
 }
 
 .button-dropdown:hover {
-    background-color: #8f98a8;
+    background-color: #151515;
 }
 
 .dropdown-content {
@@ -84,7 +91,8 @@ img#user-image {
     position: absolute;
     width: auto;
     overflow: auto;
-    background-color: #6c788e;
+    color: white;
+    background-color: #000000;
     font-size: 14px;
     box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.4);
 }
@@ -108,7 +116,7 @@ img#user-image {
 
 /*footer*/
 footer {
-    background-color: red;
+    background-color: rgb(255, 255, 255);
 }
 
 footer>div {
@@ -127,7 +135,8 @@ footer>div {
 }
 
 #box-title>h3 {
-    font-size: 40px;
+    color: black;
+    font-size: 7vh;
     font-weight: 100;
     margin-bottom: 10px;
 }
@@ -146,8 +155,12 @@ footer>div {
 }
 
 #web-info {
-    background-color: #5d677a;
+    background-color: #cacaca;
+    color: black;
     padding: 5px;
+    padding-left: 15px;
+    display: flex;
+    text-align: left;
 }
 
 /*FIN footer*/

@@ -15,26 +15,23 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>register_login</title>
     <link rel="stylesheet" href="css/header_footer.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/forms.css">
     <script defer src="./forms/register_validation.js"></script>
 </head>
 
 <body>
     <header>
         <div>
-            <a href="../index.php">
-                <h1><b>e</b>Gym</h1>
-            </a>
+            <a href="../index.php"><h1><b>e</b>Gym</h1></a>
         </div>
         <div>
             <nav>
                 <ul>
-                    <li class="nav-li"><a href="#" class="link-nav">calculadora</a></li>
                     <li class="nav-li">
                         <div class="dropdown">
                             <span>deportes</span>
                             <div class="dropdown-content">
-                                <form action="src/deportes.php" method="post">
+                                <form action="deportes.php" method="post">
                                     <input type="hidden" name="deporte" value="Calistenia">
                                     <button type="submit" class="first-option-dropdown button-dropdown">calistenia</button>
                                 </form>
@@ -57,16 +54,14 @@ if (isset($_SESSION['user'])) {
                             </div>
                         </div>
                     </li>
-                    <li class="nav-li"><a href="#" class="link-nav">mapa web</a></li>
-                    <li class="nav-li"><a href="#" class="link-nav">accesibilidad</a></li>
-                    <li class="nav-li"><a href="src/register_login.html" class="link-nav">logear/registrar</a></li>
+                    <li class="nav-li"><a href="#" class="link-nav">logear/registrar</a></li>
                 </ul>
             </nav>
         </div>
         <div>
             <?php
             if (isset($_SESSION['user'])) {
-                echo '<a href="perfil.php"><img src="../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png" alt="userImage" id="user-image"></a>';
+                echo '<img src="../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png" alt="userImage" id="user-image">';
             } else {
                 echo '<img src="../resources/fotos_usuarios/user.png" alt="userImage" id="user-image">';
             }
@@ -78,9 +73,9 @@ if (isset($_SESSION['user'])) {
             <h2 class="none">login-reistro</h2>
             <input type="checkbox" id="chk" aria-hidden="true">
 
-            <div class="signup">
+            <div class="section1-form">
                 <form name="signup-form" method="post" action="forms/register.php" enctype="multipart/form-data">
-                    <label for="chk">Sign up</label>
+                    <label for="chk">Registro</label>
                     <div class="div-form">
                         <input type="text" name="nombre" placeholder="Nombre" required>
                         <input type="password" name="contraseña" placeholder="Contraseña" required>
@@ -101,39 +96,38 @@ if (isset($_SESSION['user'])) {
                         <input type="file" name="imagen" placeholder="Foto perfil" required>
                     </div>
 
-                    <button type="submit" name="submit">Sign up</button>
+                    <button type="submit" name="submit" class="button-login">Registrarse</button>
                 </form>
             </div>
 
-            <div class="login">
+            <div class="section2-form">
                 <form name="signup-form" method="post" action="forms/login.php">
-                    <label for="chk" aria-hidden="true">Login</label>
+                    <label for="chk">Login</label>
                     <input type="email" name="email" placeholder="Email" required>
                     <input type="password" name="password" placeholder="Contraseña" required>
-                    <button type="submit">Login</button>
+                    <button type="submit" class="button-login">Login</button>
+                        <label for="chk" id="chk-pequeño">Registro</label>
                 </form>
             </div>
         </article>
     </main>
     <footer>
-        <article>
-            <h2 class="none"></h2>
-            <section>
-                <div id="box-title">
-                    <h3><b>e</b>Gym</h3>
-                </div>
-                <div id="box-icons">
-                    <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
-                </div>
-            </section>
-        </article>
-        <article id="web-info">
-            <span>Miquel Rodrigo Navarro | @Copyright | www.egym.com | v.01</span>
-        </article>
+        <h2 class="none"></h2>
+        <div>
+            <div id="box-title">
+                <h3><b>e</b>Gym</h3>
+            </div>
+            <div id="box-icons">
+                <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+            </div>
+        </div>
+        <div id="web-info">
+            <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
+        </div>
     </footer>
 </body>
 

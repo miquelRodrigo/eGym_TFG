@@ -34,7 +34,7 @@ article {
     width: 100%;
 }
 
-#box-section-header>h3 {
+h3 {
     font-size: 40px;
 }
 
@@ -54,42 +54,63 @@ article {
     align-items: center;
 }
 
-#article2:hover {
-    box-shadow: 5px 0px 30px #ffffff;
+/*sin hover*/
+.card-dificultad {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    overflow: hidden;
+    padding: 15px;
     transition: 1s;
 }
 
-.avanzado,
-.intermedio,
-.principiante,
-.foto {
+.card-dificultad>span {
+    margin: 10px;
     font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-weight: 600;
+    transition: 1s;
+    color: white;
 }
 
-#texto {
-    font-size: 20px;
-    padding: 20px;
-    margin-top: 20px;
-    width: 30%;
+.card-dificultad>p {
+    font-size: 1.2em;
+    text-align: center;
+    color: black;
+    transition: 1s;
 }
 
-.avanzado {
-    border: 1px solid black;
+.card-dificultad>img {
+    width: 100%;
+    opacity: 0;
+    transition: 1s;
+}
+/*con hover*/
+.card-dificultad:hover {
+    background-color: white;
+    transition: 1s;
 }
 
-.intermedio {
-    border: 1px solid black;
+.card-dificultad:hover>span {
+    color: black;
+    transition: 1s;
 }
 
-.principiante {
-    border: 1px solid black;
+.card-dificultad:hover>img {
+    width: 100%;
+    opacity: 1;
+    transition: 1s;
 }
+
 /*fin article 2*/
 
 /*article 3*/
+#article3>h2{
+    font-size: 4em;
+    text-align: center;
+}
+
 #container-article-3 {
     display: flex;
     width: 100%;
@@ -104,25 +125,27 @@ article {
     transition: .5s;
     margin: 0 0.5%;
     box-shadow: 0 20px 30px rgba(0, 0, 0, .1);
-    line-height: 0;
     position: relative;
 }
-
+ 
 .descripcion {
     position: absolute;
-    bottom: 200px;
-    margin: 30px;
-    padding: 5px;
+    bottom: 25%;
+    margin-left: 25%;
+    padding: 10px;
     box-shadow: 0 0 60px 30px;
-    background-color: rgba(221, 221, 221, 0.573);
-    height: 50px;
+    background-color: rgba(255, 255, 255, 0.913);
+    height: auto;
+    width: 50%;
+    color: black;
     filter: opacity(0);
-    transition: 0.5s;
+    transition: 0.3s;
+    font-size: 1.2em;
 }
 
 .box:hover>.descripcion {
     filter: opacity(1);
-    transition: .5s;
+    transition: 2.5s ease-in-out;
 }
 
 .box>.img-article3 {
@@ -130,6 +153,7 @@ article {
     height: calc(100% - 10vh);
     object-fit: cover;
     transition: .5s;
+    filter: grayscale(100%)
 }
 
 .box>span {
@@ -147,32 +171,102 @@ article {
 .box:hover>.img-article3 {
     width: 100%;
     height: 100%;
-    filter: grayscale(80%)
+    filter: grayscale(0%)
 }
 /*fin article 3*/
 
 /*article 4*/
 #article4 {
+    margin-top: 300px;
     display: flex;
     justify-content: space-around;
 }
 
 #article4>section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 45%;
-    border: 1px solid white;
-    justify-content: center;
     padding: 20px;
 }
 
 #article4>section>div {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: 15px;
-    border-bottom: 1px black solid;
+    margin-bottom: 30px;
+    border-bottom: 1px rgb(255, 255, 255) solid;
     width: 40%;
+}
+
+#article4>section>div>span {
+    font-size: 1.5em
+}
+
+#article4>section>img {
+    width: 100%;
 }
 
 .negrita {
     font-weight: 900;
 }
 /*fin article 4*/
+
+/* Estilos para dispositivos móviles */
+
+@media screen and (max-width: 768px) {
+  /* Estilos para el artículo 1 */
+  
+  #article1 {
+    flex-direction: column;
+  }
+
+  #article1>section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el artículo 2 */
+  
+  #flex-container-index {
+    flex-wrap: wrap;
+  }
+  
+  .card-dificultad {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el artículo 3 */
+  
+  #container-article-3 {
+    flex-wrap: wrap;
+    height: auto;
+  }
+  
+  .box {
+    flex: 1 1 100%;
+    margin: 10px 0;
+  }
+  
+  .descripcion {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  /* Estilos para el artículo 4 */
+  
+  #article4 {
+    flex-wrap: wrap;
+  }
+  
+  #article4>section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  #article4>section>div {
+    width: 80%;
+  }
+}

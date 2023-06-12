@@ -29,7 +29,7 @@ try {
     $select->execute();
     // si existe el mail verificamos contraseña
     while ($registro = $select->fetch()) {
-        // si la contraseña es correcta creamos usuario
+        // si la contraseña es correcta se crea sesion usuario
         if (password_verify($cotraseña, $registro['contraseña'])) {
             $usuario = new Usuario(
                 $registro['dni'],

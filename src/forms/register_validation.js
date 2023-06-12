@@ -35,6 +35,18 @@ const RegxIBAN = /^[a-zA-Z]{2}[0-9]{22}$/
 const RegxPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}$/
 
 //validación de formulario
+
+//contraseña
+contraseña.addEventListener('change', function () {
+    if (!RegxPass.test(contraseña.value)) {
+        contraseña.classList.add('invalid')
+        validado = false
+    } else {
+        contraseña.classList.remove('invalid')
+        validado = true
+    }
+});
+
 //nombre
 nombre.addEventListener('change', function () {
     console.log(nombre.value)

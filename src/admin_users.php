@@ -15,7 +15,7 @@ $arrayUsers = $usuario->arrayUsers();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admin_users</title>
     <link rel="stylesheet" href="css/header_footer.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/forms.css">
 </head>
 
 <body>
@@ -28,12 +28,11 @@ $arrayUsers = $usuario->arrayUsers();
         <div>
             <nav>
                 <ul>
-                    <li class="nav-li"><a href="#" class="link-nav">calculadora</a></li>
                     <li class="nav-li">
                         <div class="dropdown">
                             <span>deportes</span>
                             <div class="dropdown-content">
-                                <form action="src/deportes.php" method="post">
+                                <form action="deportes.php" method="post">
                                     <input type="hidden" name="deporte" value="Calistenia">
                                     <button type="submit" class="first-option-dropdown button-dropdown">calistenia</button>
                                 </form>
@@ -56,7 +55,7 @@ $arrayUsers = $usuario->arrayUsers();
                             </div>
                         </div>
                     </li>
-                    <li class="nav-li"><a href="src/register_login.html" class="link-nav">logear/registrar</a></li>
+                    <li class="nav-li"><a href="register_login.php" class="link-nav">logear/registrar</a></li>
                 </ul>
             </nav>
         </div>
@@ -71,9 +70,9 @@ $arrayUsers = $usuario->arrayUsers();
         </div>
     </header>
     <main>
-        <article>
+        <article id="article-admin">
             <h2>ADMINISTRACIÓN DE USUARIOS</h2>
-            <table>
+            <table id="table">
                 <thead>
                     <tr>
                         <th>Foto</th>
@@ -83,7 +82,7 @@ $arrayUsers = $usuario->arrayUsers();
                         <th>Tipo de usuario</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
                 <?php
                 // se muestra la información de todos los usuarios en una tabla
                 foreach ($arrayUsers as $user) {
@@ -117,24 +116,22 @@ $arrayUsers = $usuario->arrayUsers();
         </article>
     </main>
     <footer>
-        <article>
-            <h2 class="none"></h2>
-            <section>
-                <div id="box-title">
-                    <h3><b>e</b>Gym</h3>
-                </div>
-                <div id="box-icons">
-                    <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
-                </div>
-            </section>
-        </article>
-        <article id="web-info">
-            <span>Miquel Rodrigo Navarro | @Copyright | www.egym.com | v.01</span>
-        </article>
+        <h2 class="none"></h2>
+        <div>
+            <div id="box-title">
+                <h3><b>e</b>Gym</h3>
+            </div>
+            <div id="box-icons">
+                <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+            </div>
+        </div>
+        <div id="web-info">
+            <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
+        </div>
     </footer>
 </body>
 

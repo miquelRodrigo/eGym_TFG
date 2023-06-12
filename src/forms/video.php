@@ -3,10 +3,10 @@
 require_once('../clases/video.php');
 
 //se guardan inputs del formulario
-$deporte = $_POST['deporte'];
+$nombreClase = $_POST['deporte'];
 $dificultad = $_POST['dificultad'];
 $nombreVideo = $_POST['nombreVideo'];
-$video = $nombreVideo . '.<mp4';
+$video = $nombreVideo . '.mp4';
 
 //se guarda video en servidor
 $ruta = '../../resources/videos/';

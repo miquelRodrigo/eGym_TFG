@@ -2,7 +2,7 @@
 require_once('clases/usuario.php');
 session_start();
 
-if(isset($_SESSION['user'])) {
+if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
 }
 ?>
@@ -16,7 +16,7 @@ if(isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>perfil</title>
     <link rel="stylesheet" href="css/header_footer.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/forms.css">
 </head>
 
 <body>
@@ -29,12 +29,11 @@ if(isset($_SESSION['user'])) {
         <div>
             <nav>
                 <ul>
-                    <li class="nav-li"><a href="#" class="link-nav">calculadora</a></li>
                     <li class="nav-li">
                         <div class="dropdown">
                             <span>deportes</span>
                             <div class="dropdown-content">
-                                <form action="src/deportes.php" method="post">
+                                <form action="deportes.php" method="post">
                                     <input type="hidden" name="deporte" value="Calistenia">
                                     <button type="submit" class="first-option-dropdown button-dropdown">calistenia</button>
                                 </form>
@@ -57,53 +56,46 @@ if(isset($_SESSION['user'])) {
                             </div>
                         </div>
                     </li>
-                    <li class="nav-li"><a href="#" class="link-nav">mapa web</a></li>
-                    <li class="nav-li"><a href="#" class="link-nav">accesibilidad</a></li>
-                    <li class="nav-li"><a href="src/register_login.html" class="link-nav">logear/registrar</a></li>
+                    <li class="nav-li"><a href="register_login.php" class="link-nav">logear/regisolar</a></li>
                 </ul>
             </nav>
         </div>
         <div>
             <?php
             if (isset($_SESSION['user'])) {
-                echo '<a href="perfil.php"><img src="../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png" alt="userImage" id="user-image"></a>';
+                echo '<img src="../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png" alt="userImage" id="user-image">';
             } else {
                 echo '<img src="../resources/fotos_usuarios/user.png" alt="userImage" id="user-image">';
             }
             ?>
         </div>
     </header>
+
     <main>
-
         <article id="container">
-            <h2 class="none">login-reistro</h2>
-
-
-
-            <section class="signup login-signup">
-
+            <h2 class="none">login-reisolo</h2>
+            <section class="section1-form-perfil section1-form">
                 <img src="../resources/fotos_usuarios/<?php
                                                         echo $usuario->imagenUsuario ?>.png" alt="userImage" id="perfil-user-image">
                 <div>
-                    <span><?php echo $usuario->nombreUsuario ?></span><br>
-                    <span><?php echo $usuario->apellido1 . ' ' . $usuario->apellido2 ?></span>
+                    <ul id="lista">
+                        <li><?php echo $usuario->nombreUsuario.' '.$usuario->apellido1.' '.$usuario->apellido2?></li>
+                        <li><?php echo $usuario->dni ?></li>
+                        <li><?php echo $usuario->iban ?></li>
+                        <li><?php echo $usuario->mail ?></li>
+                    </ol>
                 </div>
-
             </section>
-
-            <section class="login login-login">
+            <section class="section2-form">
                 <div id="sesion">
                     <form method="post" action="#">
-                        <button type="submit" name="cerrar_sesion">Cerrar sesión</button>
+                        <button type="submit" name="cerrar_sesion" onclick="<?php echo 'hola' ?>">Cerrar sesión</button>
                         <button type="submit" name="darse_baja">Darse de baja</button>
                         <?php
                         if ($usuario->tipo_usuario == 'administrador') {
-                            echo $usuario->tipo_usuario;
-                            echo $usuario->dni;
                             echo '<button type="submit" name="administrar_usuarios">Administrar usuarios</button>';
                         }
                         ?>
-
                     </form>
                     <?php
                     if (isset($_POST['cerrar_sesion'])) {
@@ -129,30 +121,25 @@ if(isset($_SESSION['user'])) {
                 </div>
             </section>
         </article>
-
-
-
-
     </main>
+
     <footer>
-        <article>
-            <h2 class="none"></h2>
-            <section>
-                <div id="box-title">
-                    <h3><b>e</b>Gym</h3>
-                </div>
-                <div id="box-icons">
-                    <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                    <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
-                </div>
-            </section>
-        </article>
-        <article id="web-info">
-            <span>Miquel Rodrigo Navarro | @Copyright | www.egym.com | v.01</span>
-        </article>
+        <h2 class="none"></h2>
+        <div>
+            <div id="box-title">
+                <h3><b>e</b>Gym</h3>
+            </div>
+            <div id="box-icons">
+                <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+            </div>
+        </div>
+        <div id="web-info">
+            <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
+        </div>
     </footer>
 </body>
 
