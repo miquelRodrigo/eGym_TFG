@@ -10,22 +10,21 @@ CREATE TABLE `usuarios` (
   `apellido1` varchar(30) DEFAULT NULL,
   `apellido2` varchar(30) DEFAULT NULL,
   `contraseña` varchar(255) NOT NULL,
-  `iban` varchar(24) DEFAULT NULL,
-  `mail` varchar(255) NOT NULL,
-  `imagenUsuario` varchar(50) DEFAULT NULL,
-  `tipo_usuario` enum('usuario','administrador') DEFAULT NULL
+  `mail` varchar(255) NOT NULL UNIQUE,
+  `imagenUsuario` varchar(50) DEFAULT NULL UNIQUE,
+  `tipoUsuario` enum('usuario','administrador') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- DATOS PARA LA TABLA USUARIO
-INSERT INTO `usuarios` (`dni`, `nombreUsuario`, `apellido1`, `apellido2`, `contraseña`, `iban`, `mail`, `imagenUsuario`, `nivelCrossfit`, `nivelCycling`, `nivelCalistenia`, `nivelBoxeo`, `nivelNatacion`, `tipo_usuario`) VALUES
-('26754134L', 'Teresa', 'Badillo', 'Ruiz', '$2y$10$WcCGtMeY6f43xLjYO2jRie9S9biWgaEZfkw69OZ83ax447dUzsmwy', 'es2222223222222222222222', 'teresa@gmail.com', 'teresa', 'principiante', 'principiante', 'principiante', 'principiante', 'principiante', 'usuario'),
-('26754134M', 'Miquel', 'Rodrigo', 'Navarro', '$2y$10$dKazYJ1axcetY2aeD5LFVuXl6AfmpVO.Ca7ISzxbMef57U0BVB/wS', 'es2222222222222222222222', 'maikirn@gmail.com', 'maikirn', 'principiante', 'principiante', 'principiante', 'principiante', 'principiante', 'administrador');
+INSERT INTO `usuarios` (`dni`, `nombreUsuario`, `apellido1`, `apellido2`, `contraseña`, `mail`, `imagenUsuario`, `tipoUsuario`) VALUES
+('26754134A', 'Teresa', 'Badillo', 'Ruiz', '$2y$10$WcCGtMeY6f43xLjYO2jRie9S9biWgaEZfkw69OZ83ax447dUzsmwy', 'teresa@gmail.com', 'teresa', 'usuario'),
+('26754134M', 'Miquel', 'Rodrigo', 'Navarro', '$2y$10$dKazYJ1axcetY2aeD5LFVuXl6AfmpVO.Ca7ISzxbMef57U0BVB/wS', 'maikirn@gmail.com', 'maikirn', 'administrador');
 
 
 -- TABLA COMENTARIOS
 CREATE TABLE `comentarios` (
-`clave_comentarios` int auto_increment,
-`usuario` varchar(9) NOT NULL,
+`claveComentarios` int,
+`dni` varchar(9) NOT NULL,
 `comentario` text NOT NULL,
 `fecha` date NOT NULL,
 `calificacion` int NOT NULL
@@ -34,8 +33,8 @@ CREATE TABLE `comentarios` (
 
 -- TABLA CLASES
 CREATE TABLE `clases` (
-  `nombreClase` varchar(10) NOT NULL,
-  `imagenClase` varchar(50) NOT NULL,
+  `nombreClase` varchar(10) NOT NULL UNIQUE,
+  `imagenClase` varchar(50) NOT NULL UNIQUE,
   `descripcion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -94,22 +93,19 @@ INSERT INTO `videos` (`nombreVideo`, `video`, `nivel`, `nombreClase`) VALUES
 -- Indices de la tabla `clases`
 --
 ALTER TABLE `clases`
-  ADD PRIMARY KEY (`nombreClase`),
-  ADD UNIQUE KEY `imagenClase` (`imagenClase`);
+  ADD PRIMARY KEY (`nombreClase`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`dni`),
-  ADD UNIQUE KEY `mail` (`mail`),
-  ADD UNIQUE KEY `imagenUsuario` (`imagenUsuario`);
+  ADD PRIMARY KEY (`dni`);
   
 --
 -- Indices de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  ADD PRIMARY KEY (`clave_comentarios`),
+  ADD PRIMARY KEY AUTO_INCREMENT (`claveComentarios`),
   ADD CONSTRAINT `FK_COMENTARIOS_USUARIOS` FOREIGN KEY (`dni`) REFERENCES `usuarios` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE;
   
 --
@@ -123,11 +119,6 @@ ALTER TABLE `videos`
 -- Indices de la tabla `usuarios_clases`
 --
 ALTER TABLE `usuarios_clases`
-  ADD PRIMARY KEY (`dni`, `nombre_clase`, `nivel`),
+  ADD PRIMARY KEY (`dni`, `nombreClase`, `nivel`),
   ADD CONSTRAINT `FK_USUARIOS_CLASES_USUARIOS` FOREIGN KEY (`dni`) REFERENCES `usuarios` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_USUARIOS_CLASES_CLASES` FOREIGN KEY (`nombreClase`) REFERENCES `clases` (`nombreClase`);
-  
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
