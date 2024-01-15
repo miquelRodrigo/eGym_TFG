@@ -9,7 +9,6 @@ let apellido1 = document.forms['signup-form']['apellido1'];
 let apellido2 = document.forms['signup-form']['apellido2'];
 let email = document.forms['signup-form']['email'];
 let dni = document.forms['signup-form']['dni'];
-let iban = document.forms['signup-form']['iban'];
 let contraseña = document.forms['signup-form']['contraseña'];
 let rep_contraseña = document.forms['signup-form']['rep_contraseña'];
 let foto = document.forms['signup-form']['foto'];
@@ -28,8 +27,6 @@ const RegxEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))
 //8 dijitos y una letra
 const RegxDNI = /^\d{8}[a-zA-Z]{1}$/
 
-//2 letras y 22 numeros
-const RegxIBAN = /^[a-zA-Z]{2}[0-9]{22}$/
 
 //minimo 8 caracteres, maximo 15, al menos una mayuscula, una minuscula, un digito, un caracter especial y sin espacios
 const RegxPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}$/
@@ -103,17 +100,6 @@ dni.addEventListener('change', function () {
     }
 });
 
-//iban
-iban.addEventListener('change', function () {
-    if (!RegxIBAN.test(iban.value)) {
-        iban.classList.add('invalid')
-        validado = false
-    } else {
-        iban.classList.remove('invalid')
-        validado = true
-    }
-});
-
 //contraseña
 contraseña.addEventListener('change', function () {
     if (!RegxPass.test(contraseña.value)) {
@@ -121,17 +107,6 @@ contraseña.addEventListener('change', function () {
         validado = false
     } else {
         contraseña.classList.remove('invalid')
-        validado = true
-    }
-});
-
-//rep contraseña
-iban.addEventListener('change', function () {
-    if (contraseña.value != rep_contraseña.value) {
-        rep_contraseña.classList.add('invalid')
-        validado = false
-    } else {
-        rep_contraseña.classList.remove('invalid')
         validado = true
     }
 });

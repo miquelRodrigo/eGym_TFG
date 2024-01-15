@@ -7,7 +7,6 @@ class Usuario
     protected $apellido1;
     protected $apellido2;
     protected $contraseña;
-    protected $iban;
     protected $mail;
     protected $imagenUsuario;
     protected $nivelCrossfit;
@@ -24,7 +23,6 @@ class Usuario
         $apellido1,
         $apellido2,
         $contraseña,
-        $iban,
         $mail,
         $imagenUsuario,
         $nivelCrossfit,
@@ -39,7 +37,6 @@ class Usuario
         $this->apellido1 = $apellido1;
         $this->apellido2 = $apellido2;
         $this->contraseña = $contraseña;
-        $this->iban = $iban;
         $this->mail = $mail;
         $this->imagenUsuario = $imagenUsuario;
         $this->nivelCrossfit = $nivelCrossfit;
@@ -103,15 +100,14 @@ class Usuario
 
         try {
             // tabla usuarios
-            $insert = $conexion->prepare('INSERT INTO usuarios (dni, nombreUsuario, apellido1, apellido2, contraseña, iban, mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario) 
-                VALUES (:dni, :nombre, :apellido1, :apellido2, :contrasenya, :iban, :mail, :imagenUsuario, :nivelCrossfit, :nivelCycling, :nivelCalistenia, :nivelBoxeo, :nivelNatacion, :tipo_usuario);');
+            $insert = $conexion->prepare('INSERT INTO usuarios (dni, nombreUsuario, apellido1, apellido2, contraseña, mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario) 
+                VALUES (:dni, :nombre, :apellido1, :apellido2, :contrasenya, :mail, :imagenUsuario, :nivelCrossfit, :nivelCycling, :nivelCalistenia, :nivelBoxeo, :nivelNatacion, :tipo_usuario);');
 
             $insert->bindParam(':dni', $this->dni);
             $insert->bindParam(':nombre', $this->nombreUsuario);
             $insert->bindParam(':apellido1', $this->apellido1);
             $insert->bindParam(':apellido2', $this->apellido2);
             $insert->bindParam(':contrasenya', $this->contraseña);
-            $insert->bindParam(':iban', $this->iban);
             $insert->bindParam(':mail', $this->mail);
             $insert->bindParam(':imagenUsuario', $this->imagenUsuario);
             $insert->bindParam(':nivelCrossfit', $this->nivelCrossfit);
@@ -163,7 +159,7 @@ class Usuario
         try {
             //consulta
             $select = $conexion->query('SELECT dni, nombreUsuario, apellido1, apellido2, contraseña, 
-            iban, mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario
+            mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario
             FROM usuarios WHERE tipo_usuario = "usuario"');
             $select->execute();
             //se recorre para rellenar clases usuario y añadirlas al array
@@ -174,7 +170,6 @@ class Usuario
                     $registro['apellido1'],
                     $registro['apellido2'],
                     $registro['contraseña'],
-                    $registro['iban'],
                     $registro['mail'],
                     $registro['imagenUsuario'],
                     $registro['nivelCrossfit'],

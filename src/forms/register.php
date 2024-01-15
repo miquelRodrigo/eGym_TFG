@@ -6,7 +6,6 @@ require_once('../clases/usuario.php');
 $nombreUsuario = $_POST['nombre'];
 $mail = $_POST['email'];
 $dni = $_POST['dni'];
-$iban = $_POST['iban'];
 
 //comprobamos si los apellidos están seteados
 if (isset($_POST['apellido1'])) {
@@ -31,7 +30,7 @@ if (isset($_FILES['imagen'])) {
 }
 
 //instanciamos clase usuario
-$usuario = new Usuario($dni, $nombreUsuario, $apellido1, $apellido2, $contraseña_hash, $iban, $mail, $mail_name, 'principiante', 'principiante', 'principiante', 'principiante', 'principiante', 'usuario');
+$usuario = new Usuario($dni, $nombreUsuario, $apellido1, $apellido2, $contraseña_hash, $mail, $mail_name, 'principiante', 'principiante', 'principiante', 'principiante', 'principiante', 'usuario');
 
 //subimos a la base de datos
 $usuario->insert();

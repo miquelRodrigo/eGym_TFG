@@ -86,7 +86,6 @@ if (isset($_SESSION['user'])) {
                     </div>
                     <div class="div-form">
                         <input type="text" name="apellido2" placeholder="2º Apellido">
-                        <input type="text" name="iban" placeholder="IBAN" required>
                     </div>
                     <div class="div-form">
                         <input type="email" name="email" placeholder="Email" required>

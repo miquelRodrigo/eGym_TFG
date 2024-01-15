@@ -81,7 +81,6 @@ if (isset($_SESSION['user'])) {
                     <ul id="lista">
                         <li><?php echo $usuario->nombreUsuario.' '.$usuario->apellido1.' '.$usuario->apellido2?></li>
                         <li><?php echo $usuario->dni ?></li>
-                        <li><?php echo $usuario->iban ?></li>
                         <li><?php echo $usuario->mail ?></li>
                     </ol>
                 </div>
