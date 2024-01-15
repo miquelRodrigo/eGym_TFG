@@ -68,9 +68,10 @@ class Usuario
                 $user = 'admin';
                 $password = 'admin';
                 $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-                $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $password, $options);
-
+                
                 try {
+                    $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $password, $options);
+                    
                     // tabla usuarios
                     $update = $conexion->prepare('UPDATE usuarios SET :atributo = :valor WHERE dni = :dni');
 
