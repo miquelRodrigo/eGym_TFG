@@ -22,7 +22,7 @@ INSERT INTO `usuarios` (`dni`, `nombreUsuario`, `apellido1`, `apellido2`, `contr
 
 -- TABLA COMENTARIOS
 CREATE TABLE `comentarios` (
-`claveComentarios` int,
+`claveComentario` int,
 `dni` varchar(9) NOT NULL,
 `comentario` text NOT NULL,
 `fecha` date NOT NULL,
@@ -104,7 +104,7 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  ADD PRIMARY KEY AUTO_INCREMENT (`claveComentarios`),
+  ADD PRIMARY KEY AUTO_INCREMENT (`claveComentario`),
   ADD CONSTRAINT `FK_COMENTARIOS_USUARIOS` FOREIGN KEY (`dni`) REFERENCES `usuarios` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE;
   
 --

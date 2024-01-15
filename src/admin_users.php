@@ -78,7 +78,6 @@ $arrayUsers = $usuario->arrayUsers();
                         <th>Foto</th>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>IBAN</th>
                         <th>Tipo de usuario</th>
                     </tr>
                 </thead>
@@ -92,7 +91,6 @@ $arrayUsers = $usuario->arrayUsers();
                         <td><img src="../resources/fotos_usuarios/' . $user->imagenUsuario . '.png" alt="userImage" id="user-image"></td>
                         <td>' . $user->nombreUsuario . ' ' . $user->apellido1 . ' ' . $user->apellido2 . '</td>
                         <td>' . $user->mail . '</td>
-                        <td>' . $user->iban . '</td>
                         <td>' . $user->tipo_usuario . '</td>
                         <td>
                             <form method="post" action="#">

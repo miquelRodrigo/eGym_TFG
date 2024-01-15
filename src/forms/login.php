@@ -22,7 +22,7 @@ $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $passwo
 // consulta select
 try {
     $select = $conexion->prepare('SELECT dni, nombreUsuario, apellido1, apellido2, contraseña, 
-    iban, mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario
+    mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario
     FROM usuarios where mail = :mail');
 
     $select->bindParam(':mail', $email);
@@ -37,7 +37,6 @@ try {
                 $registro['apellido1'],
                 $registro['apellido2'],
                 $registro['contraseña'],
-                $registro['iban'],
                 $registro['mail'],
                 $registro['imagenUsuario'],
                 $registro['nivelCrossfit'],
