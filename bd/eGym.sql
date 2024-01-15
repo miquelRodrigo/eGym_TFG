@@ -12,7 +12,7 @@ CREATE TABLE `usuarios` (
   `mail` varchar(255) NOT NULL UNIQUE,
   `imagenUsuario` varchar(50) DEFAULT NULL UNIQUE,
   `tipoUsuario` enum('usuario','administrador') DEFAULT 'usuario'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 -- DATOS PARA LA TABLA USUARIO
 INSERT INTO `usuarios` (`dni`, `nombreUsuario`, `apellido1`, `apellido2`, `contraseña`, `mail`, `imagenUsuario`, `tipoUsuario`) VALUES
@@ -27,7 +27,7 @@ CREATE TABLE `comentarios` (
 `comentario` text NOT NULL,
 `fecha` date NOT NULL,
 `calificacion` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 -- TABLA CLASES
@@ -35,7 +35,7 @@ CREATE TABLE `clases` (
   `nombreClase` varchar(10) NOT NULL,
   `imagenClase` varchar(50) NOT NULL UNIQUE,
   `descripcion` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 -- DATOS PARA LA TABLA CLASES
 INSERT INTO `clases` (`nombreClase`, `imagenClase`, `descripcion`) VALUES
@@ -46,12 +46,12 @@ INSERT INTO `clases` (`nombreClase`, `imagenClase`, `descripcion`) VALUES
 ('Natacion', 'natacion.jpg', 'La natación utiliza la mayoría de los grupos musculares y es un exigente ejercicio físico que ayuda a mantener el corazón y los pulmones saludables. Nadar también ayuda a mantener flexibles las articulaciones, especialmente el cuello, los hombros, y la pelvis.');
 
 
--- TABLA USUARIOS-CLASES
+-- TABLA USUARIOS_CLASES
 CREATE TABLE `usuarios_clases` (
 `dni` varchar(9) NOT NULL,
 `nombreClase` varchar(10) NOT NULL,
 `nivel` enum('principiante','intermedio','avanzado') DEFAULT 'principiante'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 -- TABLA VIDEOS
@@ -60,7 +60,7 @@ CREATE TABLE `videos` (
   `video` varchar(50) NOT NULL UNIQUE,
   `nivel` enum('principiante','intermedio','avanzado') NOT NULL,
   `nombreClase` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 -- DATOS PARA TABLA VIDEOS
 INSERT INTO `videos` (`nombreVideo`, `video`, `nivel`, `nombreClase`) VALUES
