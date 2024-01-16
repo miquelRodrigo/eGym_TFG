@@ -1,6 +1,6 @@
 <?php
 //importar clase video
-require_once('../clases/video.php');
+require_once('../clases/Video.php');
 
 //se guardan inputs del formulario
 $nombreClase = $_POST['deporte'];
@@ -17,5 +17,5 @@ if (isset($_FILES['video'])) {
 // se instancia clase video
 $video = new Video($nombreVideo, $video, $dificultad, $nombreClase);
 
-$video->insert();
+Video::insert($video);
 header('Location: ../../index.php');

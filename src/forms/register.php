@@ -1,6 +1,6 @@
 <?php
 //importar clase usuario
-require_once('../clases/usuario.php');
+require_once('../clases/Usuario.php');
 
 //guardamos los inputs del formulario
 $nombreUsuario = $_POST['nombre'];
@@ -30,10 +30,10 @@ if (isset($_FILES['imagen'])) {
 }
 
 //instanciamos clase usuario
-$usuario = new Usuario($dni, $nombreUsuario, $apellido1, $apellido2, $contraseña_hash, $mail, $mail_name, 'principiante', 'principiante', 'principiante', 'principiante', 'principiante', 'usuario');
+$usuario = new Usuario($dni, $nombreUsuario, $apellido1, $apellido2, $contraseña_hash, $mail, $mail_name, 'usuario');
 
 //subimos a la base de datos
-$usuario->insert();
+Usuario::insert($usuario);
 $_SESSION['user'] = serialize($usuario);
 
 header('Location: ../../index.php');

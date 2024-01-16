@@ -1,6 +1,4 @@
-'use restrict'
-
-
+'use strict'
 
 // event.preventDefault()
 //cogemos los campos del formulario

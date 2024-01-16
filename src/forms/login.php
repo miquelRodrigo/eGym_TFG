@@ -1,7 +1,7 @@
 <?php
 session_start();
 //importar clase usuario
-require_once('../clases/usuario.php');
+require_once('../clases/Usuario.php');
 
 //se guardan los inputs del formulario
 $email = $_POST['email'];
@@ -11,6 +11,7 @@ $cotraseña = $_POST['password'];
 $correcto = false;
 $usuario;
 
+//!FIXME
 // parámetros db
 $host = 'localhost';
 $dbname = 'egym';

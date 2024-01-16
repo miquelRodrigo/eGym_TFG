@@ -1,7 +1,7 @@
 <?php
 if (isset($_SESSION['user'])) {
     session_start();
-    require_once('clases/usuario.php');
+    require_once('clases/Usuario.php');
     $usuario = unserialize($_SESSION['user']);
 }
 ?>
