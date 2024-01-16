@@ -76,12 +76,22 @@ class Usuario
             $insert->bindParam(':tipoUsuario', $usuario->tipoUsuario);
 
             //TODO @Miquel aquí el insert a la base de datos intermedia
+            $insert_usuarioClase = $conexion->prepare('INSERT INTO usuarios_clases (dni, nombreClase) VALUES (:dni, :nombreClase)');
+
+            $insert_usuarioClase->bindParam(':dni', $usuario->dni);
+            $insert_usuarioClase->bindParam(':nombreClase', $usuario->nombreUsuario);
+
 
             if (!$insert->execute()) {
                 throw new PDOException();
             }
 
             //TODO @Miquel aqui la comprobación de la transacción como la de arriba pero con el nuevo objeto como $insert_clases
+            if (!$insert_usuarioClase->execute()) {
+                throw new PDOException();
+            }
+
+
 
             $conexion->commit();
         } catch (PDOException $e) {
@@ -154,20 +164,18 @@ class Usuario
     public function arrayUsers()
     {
         $arrayUsers = array();
-        // parámetros db
-        $host = 'localhost';
-        $dbname = 'egym';
-        $user = 'admin';
-        $password = 'admin';
-        $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-        $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $password, $options);
-
+        
         try {
-            //consulta
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Query
             $select = $conexion->query('SELECT dni, nombreUsuario, apellido1, apellido2, contraseña, 
             mail, imagenUsuario, tipoUsuario
             FROM usuarios WHERE tipoUsuario = "usuario"');
             $select->execute();
+
             //se recorre para rellenar clases usuario y añadirlas al array
             while ($registro = $select->fetch()) {
                 array_push($arrayUsers, new Usuario(
@@ -186,5 +194,25 @@ class Usuario
         }
 
         return $arrayUsers;
+    }
+
+    /**
+     * Método que devuelve una consulta con la información de la tabla usuarios_clases
+     */
+    public static function getUsuarios_clases($dniUsuariosClase, $nombreClaseUsuariosClases) 
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla comentarios entera
+            $select = $conexion->prepare('SELECT nombreClase, nivel FROM usuarios_clases WHERE dni = :dni AND nombreClase = :nombreClase');
+            $select->bindParam(':dni', $dniUsuariosClase);
+            $select->bindParam(':nombreClase', $nombreClaseUsuariosClases);
+            return $select;
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
     }
 }

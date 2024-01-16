@@ -70,6 +70,9 @@ class Comentario
         }
     }
 
+    /**
+     * Método que devuelve todos los comentarios
+     */
     public static function getALl()
     {
         try {

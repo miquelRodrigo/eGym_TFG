@@ -37,19 +37,16 @@ try {
     echo 'Falló la conexión: ' . $e->getMessage();
 }
 
-//nivel del deporte
+//nivel y nombre de la clase
 $nivel;
+$nombreClase;
+
 if ($EstaRegistrado) {
-    if ($clase->nombreClase == 'Calistenia') {
-        $nivel = $usuario->nivelCalistenia;
-    } else if ($clase->nombreClase == 'Boxeo') {
-        $nivel = $usuario->nivelBoxeo;
-    } else if ($clase->nombreClase == 'Natacion') {
-        $nivel = $usuario->nivelNatacion;
-    } else if ($clase->nombreClase == 'Crossfit') {
-        $nivel = $usuario->nivelCrossfit;
-    } else {
-        $nivel = $usuario->nivelCycling;
+    $usuario = Usuario::getUsuarios_clases($_SESSION['user']->dni, $clase->nombreClase);
+    $usuario->execute();
+    while ($registro = $usuario->fetch()) {
+        $nombreClase = $registro['nombreClase'];
+        $nivel = $registro['nivel'];
     }
 } else {
     $nivel = 'Regístrate para ver el contenido completo';
@@ -58,7 +55,6 @@ if ($EstaRegistrado) {
 
 //niveles de deporte
 $niveles = ['principiante', 'intermedio', 'avanzado'];
-
 ?>
 
 <!DOCTYPE html>
