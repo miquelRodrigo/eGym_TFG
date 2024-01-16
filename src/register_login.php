@@ -1,7 +1,7 @@
 <?php
+require_once('clases/Usuario.php');
 if (isset($_SESSION['user'])) {
     session_start();
-    require_once('clases/Usuario.php');
     $usuario = unserialize($_SESSION['user']);
 }
 ?>
@@ -22,7 +22,9 @@ if (isset($_SESSION['user'])) {
 <body>
     <header>
         <div>
-            <a href="../index.php"><h1><b>e</b>Gym</h1></a>
+            <a href="../index.php">
+                <h1><b>e</b>Gym</h1>
+            </a>
         </div>
         <div>
             <nav>
@@ -105,7 +107,7 @@ if (isset($_SESSION['user'])) {
                     <input type="email" name="email" placeholder="Email" required>
                     <input type="password" name="password" placeholder="Contraseña" required>
                     <button type="submit" class="button-login">Login</button>
-                        <label for="chk" id="chk-pequeño">Registro</label>
+                    <label for="chk" id="chk-pequeño">Registro</label>
                 </form>
             </div>
         </article>

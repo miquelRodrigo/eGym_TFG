@@ -10,7 +10,7 @@ class Usuario
     protected $contraseña;
     protected $mail;
     protected $imagenUsuario;
-    protected $tipo_usuario;
+    protected $tipoUsuario;
 
     // Constructor
     function __construct(
@@ -21,7 +21,7 @@ class Usuario
         $contraseña,
         $mail,
         $imagenUsuario,
-        $tipo_usuario,
+        $tipoUsuario,
     ) {
         $this->dni = $dni;
         $this->nombreUsuario = $nombreUsuario;
@@ -30,7 +30,7 @@ class Usuario
         $this->contraseña = $contraseña;
         $this->mail = $mail;
         $this->imagenUsuario = $imagenUsuario;
-        $this->tipo_usuario = $tipo_usuario;
+        $this->tipoUsuario = $tipoUsuario;
     }
 
     // Getter
@@ -64,7 +64,7 @@ class Usuario
 
             $conexion->beginTransaction();
             // Query
-            $insert = $conexion->prepare('INSERT INTO usuarios (dni, nombreUsuario, apellido1, apellido2, contraseña, mail, imagenUsuario, tipo_usuario) VALUES (:dni, :nombre, :apellido1, :apellido2, :contraseña, :mail, :imagenUsuario, :tipo_usuario);');
+            $insert = $conexion->prepare('INSERT INTO usuarios (dni, nombreUsuario, apellido1, apellido2, contraseña, mail, imagenUsuario, tipoUsuario) VALUES (:dni, :nombre, :apellido1, :apellido2, :contraseña, :mail, :imagenUsuario, :tipoUsuario);');
 
             $insert->bindParam(':dni', $usuario->dni);
             $insert->bindParam(':nombre', $usuario->nombreUsuario);
@@ -73,7 +73,7 @@ class Usuario
             $insert->bindParam(':contraseña', $usuario->contraseña);
             $insert->bindParam(':mail', $usuario->mail);
             $insert->bindParam(':imagenUsuario', $usuario->imagenUsuario);
-            $insert->bindParam(':tipo_usuario', $usuario->tipo_usuario);
+            $insert->bindParam(':tipoUsuario', $usuario->tipoUsuario);
 
             //TODO @Miquel aquí el insert a la base de datos intermedia
 
@@ -165,8 +165,8 @@ class Usuario
         try {
             //consulta
             $select = $conexion->query('SELECT dni, nombreUsuario, apellido1, apellido2, contraseña, 
-            mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario
-            FROM usuarios WHERE tipo_usuario = "usuario"');
+            mail, imagenUsuario, tipoUsuario
+            FROM usuarios WHERE tipoUsuario = "usuario"');
             $select->execute();
             //se recorre para rellenar clases usuario y añadirlas al array
             while ($registro = $select->fetch()) {
@@ -178,12 +178,7 @@ class Usuario
                     $registro['contraseña'],
                     $registro['mail'],
                     $registro['imagenUsuario'],
-                    $registro['nivelCrossfit'],
-                    $registro['nivelCycling'],
-                    $registro['nivelCalistenia'],
-                    $registro['nivelBoxeo'],
-                    $registro['nivelNatacion'],
-                    $registro['tipo_usuario']
+                    $registro['tipoUsuario']
                 ));
             }
         } catch (PDOException $e) {

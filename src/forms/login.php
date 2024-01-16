@@ -23,7 +23,7 @@ $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $passwo
 // consulta select
 try {
     $select = $conexion->prepare('SELECT dni, nombreUsuario, apellido1, apellido2, contraseña, 
-    mail, imagenUsuario, nivelCrossfit, nivelCycling, nivelCalistenia, nivelBoxeo, nivelNatacion, tipo_usuario
+    mail, imagenUsuario, tipoUsuario
     FROM usuarios where mail = :mail');
 
     $select->bindParam(':mail', $email);
@@ -40,12 +40,7 @@ try {
                 $registro['contraseña'],
                 $registro['mail'],
                 $registro['imagenUsuario'],
-                $registro['nivelCrossfit'],
-                $registro['nivelCycling'],
-                $registro['nivelCalistenia'],
-                $registro['nivelBoxeo'],
-                $registro['nivelNatacion'],
-                $registro['tipo_usuario']
+                $registro['tipoUsuario']
             );
             $_SESSION['user'] = serialize($usuario);
             header('Location: ../../index.php');
