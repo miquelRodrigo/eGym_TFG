@@ -1,13 +1,14 @@
 <?php
+require_once('Core.php');
 class Video
 {
-    // propiedades
+    // Propiedades
     protected $nombreVideo;
     protected $video;
     protected $nivel;
     protected $nombreClase;
 
-    // constructor
+    // Constructor
     function __construct(
         $nombreVideo,
         $video,
@@ -20,7 +21,7 @@ class Video
         $this->nombreClase = $nombreClase;
     }
 
-    // get
+    // Getter
     public function __get($atributo)
     {
         if (property_exists($this, $atributo)) {
@@ -28,7 +29,7 @@ class Video
         }
     }
 
-    // set
+    // Setter
     public function __set($atributo, $valor)
     {
         if ($atributo) {
@@ -40,29 +41,48 @@ class Video
         return $this;
     }
 
-    // metodos
-    // se inserta video
-    public function insert()
+    /**
+     * Método que inserta un video en base de datos
+     */
+    public static function insert($video)
     {
-        // parámetros db
-        $host = 'localhost';
-        $dbname = 'egym';
-        $user = 'admin';
-        $password = 'admin';
-        $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-        $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $password, $options);
-
         try {
-            // tabla videos
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            $conexion->beginTransaction();
+            // Query
             $insert = $conexion->prepare('INSERT INTO videos (nombreVideo, video, nivel, nombreClase)
                 VALUES (:nombreVideo, :video, :nivel, :nombreClase);');
-            
-            $insert->bindParam(':nombreVideo', $this->nombreVideo);
-            $insert->bindParam(':video', $this->video);
-            $insert->bindParam(':nivel', $this->nivel);
-            $insert->bindParam(':nombreClase', $this->nombreClase);
-            $insert->execute();
+            $insert->bindParam(':dni', $video->dni);
+            $insert->bindParam(':comentario', $video->comentario);
+            $insert->bindParam(':fecha', $video->fecha);
+            $insert->bindParam(':calificacion', $video->calificacion);
 
+            if (!$insert->execute()) {
+                throw new PDOException();
+            }
+
+            $conexion->commit();
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    public static function getByClase($clase)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla videos dependiendo de la clase
+            $select = $conexion->prepare('SELECT nombreVideo, video, nivel, nombreClase FROM videos WHERE nombreClase = :nombreClase');
+            $select->bindParam(':nombreClase', $clase);
+
+            return $select;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }

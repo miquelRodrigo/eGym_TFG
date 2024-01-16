@@ -1,5 +1,6 @@
 <?php
-require_once('src/clases/usuario.php');
+require_once('src/clases/Usuario.php');
+require_once('src/clases/Clase.php');
 session_start();
 
 if (isset($_SESSION['user'])) {
@@ -76,9 +77,9 @@ if (isset($_SESSION['user'])) {
             <section id="box-section-header">
                 <h3>Ejercítate en casa</h3>
                 <p>
-                   <b>Comodidad y conveniencia: </b>Hacer ejercicio en casa te brinda la comodidad de no tener que desplazarte a un gimnasio. Puedes adaptar tu horario de entrenamiento según tus necesidades y realizarlo en cualquier momento que te resulte conveniente. No tienes que preocuparte por el tráfico, los horarios de clase o las limitaciones de tiempo.<br><br>
+                    <b>Comodidad y conveniencia: </b>Hacer ejercicio en casa te brinda la comodidad de no tener que desplazarte a un gimnasio. Puedes adaptar tu horario de entrenamiento según tus necesidades y realizarlo en cualquier momento que te resulte conveniente. No tienes que preocuparte por el tráfico, los horarios de clase o las limitaciones de tiempo.<br><br>
 
-                   <b>Ahorro económico: </b>Hacer deporte en casa puede ser más económico a largo plazo. No tienes que pagar una membresía de gimnasio mensual o cuotas adicionales por clases especializadas. Además, no necesitas invertir en equipos costosos, ya que hay muchas rutinas de ejercicio que puedes realizar con tu propio peso corporal o con equipamiento básico y accesible.<br><br>
+                    <b>Ahorro económico: </b>Hacer deporte en casa puede ser más económico a largo plazo. No tienes que pagar una membresía de gimnasio mensual o cuotas adicionales por clases especializadas. Además, no necesitas invertir en equipos costosos, ya que hay muchas rutinas de ejercicio que puedes realizar con tu propio peso corporal o con equipamiento básico y accesible.<br><br>
 
                     <b>Privacidad y comodidad: </b>Al hacer ejercicio en casa, tienes la ventaja de tener total privacidad. No tienes que preocuparte por la presencia de otras personas, lo que puede resultar especialmente beneficioso si te sientes cohibido o inseguro al hacer ejercicio en público.
                 </p>
@@ -113,33 +114,21 @@ if (isset($_SESSION['user'])) {
             <h2>Deportes</h2>
             <div id="container-article-3">
                 <?php
-                // parámetros db
-                $host = 'localhost';
-                $dbname = 'egym';
-                $user = 'admin';
-                $password = 'admin';
-                $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-                $conexion = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $password, $options);
-
-                try {
-                    // se consulta la tabla clases entera
-                    $select = $conexion->query('SELECT nombreClase, imagenClase, descripcion FROM clases');
-                    $select->execute();
-                    // se recorre
-                    while ($registro = $select->fetch()) {
-                        //se crea una seccion por clase
-                        echo
-                        '
+                $clases = Clase::getAll();
+                $clases->execute();
+                // se recorre
+                while ($registro = $clases->fetch()) {
+                    //se crea una seccion por clase
+                    echo
+                    '
                         <section class="box">
                             <img src="resources/imagenes/clases/' . $registro['imagenClase'] . '" class="img-article3">
                             <p class="descripcion">' . $registro['descripcion'] . '</p>
                             <span>' . $registro['nombreClase'] . '</span>
                         </section>
                         ';
-                    }
-                } catch (PDOException $e) {
-                    echo 'Falló la conexión: ' . $e->getMessage();
                 }
+
                 ?>
             </div>
         </article>

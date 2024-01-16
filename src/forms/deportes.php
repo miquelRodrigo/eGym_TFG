@@ -1,6 +1,6 @@
 <?php
 //importar clase usuario
-require_once('../clases/usuario.php');
+require_once('../clases/Usuario.php');
 session_start();
 $usuario = unserialize($_SESSION['user']);
 
@@ -11,6 +11,7 @@ $nivel = $_POST['nivel'];
 echo $nombreClase;
 echo $nivel;
 
+//!FIXME
 //se comprueba que nivel cambiar
 if ($nombreClase == 'Calistenia') {
     $usuario->nivelCalistenia = $nivel;
