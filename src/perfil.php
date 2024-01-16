@@ -111,13 +111,13 @@ if (isset($_SESSION['user'])) {
                     ?>
                 </div>
                 <div id="linea"></div>
-                <div id="niveles">
+                <!-- <div id="niveles">
                     <span><b>Natación</b><?php echo ' ' . $usuario->nivelNatacion ?></span>
                     <span><b>Crossfit</b><?php echo ' ' . $usuario->nivelCrossfit ?></span>
                     <span><b>Cycling</b><?php echo ' ' . $usuario->nivelCycling ?></span>
                     <span><b>Boxeo</b><?php echo ' ' . $usuario->nivelBoxeo ?></span>
                     <span><b>Calistenia</b><?php echo ' ' . $usuario->nivelCalistenia ?></span>
-                </div>
+                </div> -->
             </section>
         </article>
     </main>

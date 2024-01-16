@@ -1,5 +1,5 @@
 <?php
-require_once('clases/usuario.php');
+require_once('clases/Usuario.php');
 session_start();
 $EstaRegistrado;
 
