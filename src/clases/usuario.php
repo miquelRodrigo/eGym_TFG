@@ -134,11 +134,33 @@ class Usuario
     }
 
     /**
-     * Método que modifica las clases de un usuario en la base de datos
+     * Método que modifica el nivel de un usuario en la base de datos
      */
     public static function updateUsuarioClase($dni, $nombreClase, $nivel)
     {
-        //TODO @Miquel
+        
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            $conexion->beginTransaction();
+            // Query
+            $update = $conexion->prepare('UPDATE usuarios_clases set nivel = :nivel WHERE dni = :dni AND nombreClase = :nombreClase;');
+
+            $update->bindParam(':dni', $dni);
+            $update->bindParam(':nombreClase', $nombreClase);
+            $update->bindParam(':nivel', $nivel);
+
+            if (!$update->execute()) {
+                throw new PDOException();
+            }
+
+            $conexion->commit();
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
     }
 
     /**
