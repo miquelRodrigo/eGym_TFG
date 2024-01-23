@@ -75,7 +75,7 @@ class Usuario
             $insert->bindParam(':imagenUsuario', $usuario->imagenUsuario);
             $insert->bindParam(':tipoUsuario', $usuario->tipoUsuario);
 
-            //TODO @Miquel aquí el insert a la base de datos intermedia
+            // Query
             $insert_usuarioClase = $conexion->prepare('INSERT INTO usuarios_clases (dni, nombreClase) VALUES (:dni, :nombreClase)');
 
             $insert_usuarioClase->bindParam(':dni', $usuario->dni);
@@ -86,12 +86,9 @@ class Usuario
                 throw new PDOException();
             }
 
-            //TODO @Miquel aqui la comprobación de la transacción como la de arriba pero con el nuevo objeto como $insert_clases
             if (!$insert_usuarioClase->execute()) {
                 throw new PDOException();
             }
-
-
 
             $conexion->commit();
         } catch (PDOException $e) {
