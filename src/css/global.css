@@ -1,0 +1,47 @@
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+body {
+  padding-top: 3rem;
+  color: #5a5a5a;
+}
+
+section {
+  margin-bottom: 4rem;
+}
+
+b {
+  font-weight: 900;
+}
+
+a {
+  text-decoration: none;
+}
+
+.carousel-caption {
+  bottom: 3rem;
+  z-index: 10;
+}
+
+.carousel-item {
+  height: 32rem;
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  position: 50% 50%;
+}
+
+.none {
+  display: none;
+}
+
+.social-icon {
+  margin-right: 1em;
+  margin-left: 1em;
+  width: 40px;
+}

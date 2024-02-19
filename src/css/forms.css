@@ -1,13 +1,5 @@
-main {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 #container {
-	margin: 20px;
-	width: auto;
-	height: 550px;
+	height: 700px;
 	background: red;
 	overflow: hidden;
 	border-radius: 10px;
@@ -16,17 +8,15 @@ main {
 	background-color: black;
 }
 
-#chk {
-	display: none;
-}
-
-.section1-form {
+.register-form {
 	position: relative;
 	width: 100%;
 	height: 100%;
+	display: flex;
+	justify-content: space-around;
 }
 
-label {
+.label {
 	color: #fff;
 	font-size: 2.3em;
 	justify-content: center;
@@ -37,29 +27,15 @@ label {
 	transition: .5s ease-in-out;
 }
 
-.div-form {
-	display: flex;
-	justify-content: space-around;
-
-}
-
 input {
-	height: 20px;
-	background: #e0dede;
-	margin: 10px;
-	padding: 10px;
-	border: none;
-	outline: none;
 	border-radius: 5px;
 	border: rgb(92, 92, 92) solid 1px;
 }
 
 .button-login {
-	width: 60%;
+	width: 50%;
 	height: 40px;
 	margin: 10px auto;
-	justify-content: center;
-	display: block;
 	color: #fff;
 	background: #2c3039;
 	font-size: 1em;
@@ -76,36 +52,40 @@ button:hover {
 	background: #6d44b8;
 }
 
-.section2-form {
-	height: 530px;
+.login-form {
+	height: 700px;
 	background: #eee;
 	border-radius: 60% / 10%;
 	transform: translateY(-110px);
+	display: flex;
+	justify-content: space-around;
 	transition: .8s ease-in-out;
 }
 
-.section2-form>form {
-	display: flex;
-	flex-direction: column;
-	padding-left: 20%;
-	padding-right: 20%;
-}
-
-.section2-form label {
+.login-form label {
 	color: #2c3039;
 	transform: scale(.6);
 	margin-bottom: 50px;
 }
 
-#chk:checked~.section2-form {
-	transform: translateY(-570px);
+.login-form {
+	transform: translateY(-150px);
+	height: 700px;
+	border-radius: 90% / 20%;
+	display: flex;
+	justify-content: space-around;
+	padding-top: 40px;
 }
 
-#chk:checked~.section2-form label {
+#chk:checked~.login-form {
+	transform: translateY(-730px);
+}
+
+#chk:checked~.login-form label {
 	transform: scale(1);
 }
 
-#chk:checked~.section1-form label {
+#chk:checked~.register-form h3 {
 	transform: scale(.6);
 }
 
@@ -143,20 +123,6 @@ button:hover {
 	margin: 20px;
 	margin-top: 20px;
 	border-radius: 100%;
-}
-
-section.section2-form {
-	display: flex;
-	height: 100px;
-}
-
-section.section2-form {
-	transform: translateY(-350px);
-	height: 470px;
-	border-radius: 90% / 20%;
-	display: flex;
-	justify-content: space-around;
-	padding-top: 40px;
 }
 
 div#sesion {
@@ -204,7 +170,7 @@ div#linea {
 }
 /*fin perfil*/
 /*subir video*/
-.section2-form-video {
+.login-form-video {
 	margin-top: 100%;
 }
 
