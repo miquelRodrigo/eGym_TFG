@@ -1,7 +1,6 @@
 -- CREACIÓN DE BASE DE DATOS
 CREATE DATABASE IF NOT EXISTS `egym`;
 USE `egym`;
-
 -- TABLA USUARIOS
 CREATE TABLE `usuarios` (
   `dni` varchar(9) NOT NULL,
