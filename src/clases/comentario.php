@@ -2,22 +2,28 @@
 require_once('Core.php');
 class Comentario
 {
+    protected $idComentario;
     protected $dni;
-    protected $comentario;
+    protected $texto;
     protected $fecha;
     protected $calificacion;
+    protected $idClase;
 
     // Constructor
     function _construct(
+        $idComentario,
         $dni,
-        $comentario,
+        $texto,
         $fecha,
-        $calificacion
+        $calificacion,
+        $idClase
     ) {
+        $this->idComentario = $idComentario;
         $this->dni = $dni;
-        $this->comentario = $comentario;
+        $this->texto = $texto;
         $this->fecha = $fecha;
         $this->calificacion = $calificacion;
+        $this->idClase = $idClase;
     }
 
     // Getter
@@ -36,7 +42,6 @@ class Comentario
                 $this->$atributo = $valor;
             }
         }
-
         return $this;
     }
 
@@ -52,12 +57,13 @@ class Comentario
 
             $conexion->beginTransaction();
             // Query
-            $insert = $conexion->prepare('INSERT INTO comentarios (dni, comentario, fecha, calificacion) 
-                VALUES (:dni, :comentario, :fecha, :calificacion);');
+            $insert = $conexion->prepare('INSERT INTO comentarios (dni, texto, fecha, calificacion, idClase) 
+                VALUES (:dni, :texto, :fecha, :calificacion, :idClase);');
             $insert->bindParam(':dni', $comentario->dni);
-            $insert->bindParam(':comentario', $comentario->comentario);
+            $insert->bindParam(':texto', $comentario->texto);
             $insert->bindParam(':fecha', $comentario->fecha);
             $insert->bindParam(':calificacion', $comentario->calificacion);
+            $insert->bindParam(':idClase', $comentario->idClase);
 
             if (!$insert->execute()) {
                 throw new PDOException();
@@ -71,9 +77,9 @@ class Comentario
     }
 
     /**
-     * Método que devuelve todos los comentarios
+     * Método que devuelve todos los comentarios de una clase
      */
-    public static function getALl()
+    public static function getALlByClase($idClase)
     {
         try {
             // Se crea la conexión
@@ -81,7 +87,9 @@ class Comentario
             $conexion = $core->conexion;
 
             // Se consulta la tabla comentarios entera
-            $select = $conexion->query('SELECT claveComentario, dni, comentario, fecha, calificacion FROM comentarios');
+            $select = $conexion->prepare('SELECT * FROM comentarios WHERE idClase = :idClase');
+            $select->bindParam(':idClase', $idClase);
+            
             return $select;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
