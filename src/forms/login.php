@@ -11,7 +11,6 @@ $cotraseña = $_POST['password'];
 $correcto = false;
 $usuario;
 
-//!FIXME
 // parámetros db
 $host = 'localhost';
 $dbname = 'egym';

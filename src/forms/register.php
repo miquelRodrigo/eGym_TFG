@@ -19,6 +19,7 @@ if (isset($_POST['apellido2'])) {
 } else {
     $apellido2 = "";
 }
+
 //se encripta contraseña
 $contraseña_hash = password_hash($_POST['contraseña'], PASSWORD_DEFAULT);
 

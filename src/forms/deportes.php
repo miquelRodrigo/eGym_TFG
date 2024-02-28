@@ -11,7 +11,6 @@ $nivel = $_POST['nivel'];
 echo $nombreClase;
 echo $nivel;
 
-//!FIXME
 //se comprueba que nivel cambiar
 if ($nombreClase == 'Calistenia') {
     $usuario->nivelCalistenia = $nivel;

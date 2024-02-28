@@ -100,7 +100,6 @@ $usuario = unserialize($_SESSION['user']);
             </form>
 
 
-
         </article>
     </main>
     <footer>
