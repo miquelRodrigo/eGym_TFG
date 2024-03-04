@@ -70,29 +70,32 @@ class Usuario
             $insert->bindParam(':nombre', $usuario->nombre);
             $insert->bindParam(':apellido1', $usuario->apellido1);
             $insert->bindParam(':apellido2', $usuario->apellido2);
-            $insert->bindParam(':contraseña', $usuario->pass);
-            $insert->bindParam(':mail', $usuario->email);
-            $insert->bindParam(':imagenUsuario', $usuario->imagen);
-            $insert->bindParam(':tipoUsuario', $usuario->tipo);
-
-            $insert_usuarioClase = $conexion->prepare('INSERT INTO usuarios_clases (dni, nombreClase) VALUES (:dni, :nombreClase)');
-
-            $insert_usuarioClase->bindParam(':dni', $usuario->dni);
-            $insert_usuarioClase->bindParam(':nombreClase', $usuario->nombreUsuario);
-
+            $insert->bindParam(':pass', $usuario->pass);
+            $insert->bindParam(':email', $usuario->email);
+            $insert->bindParam(':imagen', $usuario->imagen);
+            $insert->bindParam(':tipo', $usuario->tipo);
 
             if (!$insert->execute()) {
                 throw new PDOException();
             }
 
-            if (!$insert_usuarioClase->execute()) {
-                throw new PDOException();
+            for ($i = 1; $i < 6; $i++) {
+                $insert_usuarioClase = $conexion->prepare('INSERT INTO usuarios_deportes (dni, idDeporte, nivel) VALUES (:dni, :deporte, "principiante");');
+
+                $insert_usuarioClase->bindParam(':dni', $usuario->dni);
+                $insert_usuarioClase->bindParam(':deporte', $i);
+
+                if (!$insert_usuarioClase->execute()) {
+                    throw new PDOException();
+                }
             }
 
             $conexion->commit();
+            return true;
         } catch (PDOException $e) {
             $conexion->rollBack();
             echo 'Falló la conexión: ' . $e->getMessage();
+            return false;
         }
     }
 
@@ -181,7 +184,7 @@ class Usuario
     /**
      * Método que devuelve una consulta con la información de la tabla usuarios_deportes
      */
-    public static function getUsuarioDeporte($dni, $idDeporte) 
+    public static function getUsuarioDeporte($dni, $idDeporte)
     {
         try {
             // Se crea la conexión
@@ -194,6 +197,52 @@ class Usuario
             $select->bindParam(':idDeporte', $idDeporte);
 
             return $select;
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function checkUsuarioByEmail($email)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla usuarios_deportes
+            $select = $conexion->prepare('SELECT count(*) FROM usuarios WHERE email = :email');
+            $select->bindParam(':email', $email);
+            $select->execute();
+
+            if ($select->fetch() > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function getUsuarioByEmail($email)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla usuarios_deportes
+            $select = $conexion->prepare('SELECT * FROM usuarios WHERE email = :email;');
+            $select->bindParam(':email', $email);
+            $select->execute();
+
+            return $select->fetch();
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }

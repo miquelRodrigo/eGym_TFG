@@ -75,6 +75,27 @@ class Clase
     }
 
     /**
+     * Método
+     */
+    public static function getClaseById($idClase) 
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla usuarios_deportes
+            $select = $conexion->prepare('SELECT * FROM clases WHERE idClase = :idClase');
+            $select->bindParam(':idClase', $idClase);
+            $select->execute();
+
+            return $select->fetch();
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    /**
      * Método que devuelve todas las clases de un deporte
      */
     public static function getByDeporte($idDeporte)
@@ -94,6 +115,7 @@ class Clase
             while ($registro = $select->fetch()) {
                 array_push($clases, $registro);
             }
+
             return $clases;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();

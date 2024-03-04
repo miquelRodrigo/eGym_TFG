@@ -8,7 +8,6 @@ class Deporte
     protected $nombre;
     protected $imagen;
     protected $descripcion;
-    protected $clases;
 
     // Constructor
     function __construct(
@@ -21,7 +20,6 @@ class Deporte
         $this->nombre = $nombre;
         $this->imagen = $imagen;
         $this->descripcion = $descripcion;
-        $this->clases = $this->getClases();
     }
 
     // Getter
@@ -63,6 +61,7 @@ class Deporte
             while ($registro = $select->fetch()) {
                 array_push($deportes, $registro);
             }
+
             return $deportes;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
@@ -87,16 +86,5 @@ class Deporte
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }
-    }
-
-    /**
-     * Método que guarda todas las clases relacionados con un deporte
-     */
-    private function getClases()
-    {
-        $clases = Clase::getByDeporte($this->idDeporte);
-
-        // Se devuelve el array completo
-        return $clases;
     }
 }
