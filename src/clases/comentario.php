@@ -79,7 +79,7 @@ class Comentario
     /**
      * Método que devuelve todos los comentarios de una clase
      */
-    public static function getALlByClase($idClase)
+    public static function getAllByClase($idClase)
     {
         try {
             // Se crea la conexión
@@ -89,8 +89,15 @@ class Comentario
             // Se consulta la tabla comentarios entera
             $select = $conexion->prepare('SELECT * FROM comentarios WHERE idClase = :idClase');
             $select->bindParam(':idClase', $idClase);
-            
-            return $select;
+            $select->execute();
+
+            $comentarios = array();
+
+            while ($registro = $select->fetch()) {
+                array_push($comentarios, $registro);
+            }
+
+            return $comentarios;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }

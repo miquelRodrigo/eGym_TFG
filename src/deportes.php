@@ -1,19 +1,20 @@
 <?php
 require_once('clases/Usuario.php');
+require_once('clases/Deporte.php');
+require_once('clases/Clase.php');
 session_start();
-$EstaRegistrado;
 
 if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
-    $EstaRegistrado = true;
-} else {
-    $EstaRegistrado = false;
 }
+// Información deporte
+$deporteActual = Deporte::getByName($_GET['deporte']);
 
-// información deporte
-require_once('clases/Deporte.php');
-$deporte = Deporte::getByName($_GET['deporte']);
-// parámetros db
+// Información clases
+$clases = Clase::getByDeporte($deporteActual['idDeporte']);
+
+// Niveles de deporte
+$niveles = ['principiante', 'intermedio', 'avanzado'];
 
 //nivel y nombre de la clase
 $nivel;
@@ -29,12 +30,6 @@ $nombreClase;
 } else {
     $nivel = 'Regístrate para ver el contenido completo';
 } */
-
-
-//niveles de deporte
-$niveles = ['principiante', 'intermedio', 'avanzado'];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +38,7 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $deporte['nombre'] ?></title>
+    <title><?= $deporteActual['nombre'] ?></title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -87,7 +82,15 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
                                 <a class="nav-link" href="#">Calculadora de calorías</a>
                             </li>
                             <li class="nav-item" style="justify-self: flex-end;">
-                                <a class="nav-link" href="register_login.php">Iniciar sesión</a>
+                            <?php
+                                if (isset($_SESSION['user'])) {
+                                    echo '<a class="nav-link" href="#">'.
+                                    $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2']
+                                    .'</a>';
+                                } else {
+                                    echo '<a class="nav-link" href="./src/register_login.php">Iniciar sesión</a>';
+                                }
+                                ?>
                             </li>
                         </ul>
                     </div>
@@ -96,98 +99,89 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
         </nav>
     </header>
 
-    <main>
-        <article id="deportes-resumen">
-            <section id="box-section-header">
-                <img src="../resources/imagenes/clases/<?php echo $clase->imagenClase ?>" alt="box">
-                <div>
-                    <h2><?php echo $clase->nombreClase ?></h2>
-                    <p><?php echo $clase->descripcion ?></p>
-                </div>
-            </section>
-            <section>
-                <div>
-                    <span><?php echo $nivel ?></span>
-                </div>
-                <?php
-                if (isset($_SESSION['user'])) {
-                    if (strcasecmp($usuario->tipo_usuario, 'administrador') == 0) {
-                        echo
-                        '
-                        <div>
-                            <a href="subir_video.php" id="no-morado">subir nuevo video</a>
-                        </div>
-                        ';
-                    }
-                }
-
-                ?>
-            </section>
-        </article>
-        <?php
-        if (!$EstaRegistrado) { // si el usuario no está registrado podrá ver solo los videos de principiante
-            echo
-            '
-            <article class="niveles-video">
-            <div>
-                <div></div><h2>Principiante</h2><div></div>
+    <main class="mt-5">
+        <section>
+            <div style="background-image: url('../resources/imagenes/deportes/<?= $deporteActual['imagen'] ?>'); height: 700px;" class="container">
+                <h2><b><?= $deporteActual['nombre'] ?></b></h2>
             </div>
-            <section class="container-cards">
-                ';
-            foreach ($clase->videos as $video) { // una card por cada video
-                if (strcasecmp($video->nivel, 'Principiante') == 0) { // cuyo nivel sea igual al del article
-                    echo
-                    '
-                    <div class="card">
-                        <video width="320" height="240" controls>
-                            <source src="../resources/videos/' . $video->video . '" type="video/mp4">
-                        </video>
-                        <h3>' . $video->nombreVideo . '</h3>
-                    </div>
-                    ';
-                }
-            }
-            echo '
-            </section>
-        </article>
-        ';
-        } else {
-            foreach ($niveles as $lv) { // un article por nivel, 3 en total
-                echo
-                '
-            <article class="niveles-video">
-                <form method="post" action="forms/deportes.php">
-                    <input type="hidden" name="deporte" value="' . $clase->nombreClase . '">
-                <div>
-                    <div></div>
-                    <h2>' . $lv . '</h2>
-                    <button type="submit" name="nivel" value=' . $lv . ' class="button-lv">Soy nivel ' . $lv . '</button>
-                    <div></div>
-                </div>
-                <section class="container-cards">
-                    ';
-                foreach ($clase->videos as $video) { // una card por cada video
-                    if ($video->nivel == $lv) { // cuyo nivel sea igual al del article
-                        echo
-                        '
-                            <div class="card">
-                                <video controls>
-                                    <source src="../resources/videos/' . $video->video . '" type="video/mp4">
-                                </video>
-                                <h3>' . $video->nombreVideo . '</h3>
-                            </div>
-                            ';
-                    }
-                }
-                echo '
-                        </section>
-                    </form>
-                </article>
-                ';
-            }
-        }
+        </section>
 
-        ?>
+        <section class="text-center">
+            <h2> Clases </h2>
+
+            <div class="d-flex">
+                <article class="w-75">
+                    <h3 class="none"> Videos </h3>
+                    <iframe src="./../index.php" name="video_clase" class="w-100" height="700"></iframe>
+                </article>
+
+                <article class="w-25">
+                    <h3 class="none"> Niveles </h3>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Principiante
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($clases as $clase) {
+                                        if ($clase['nivel'] == $niveles[0]) {
+                                            echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
+                                                . $clase['nombre'] .
+                                                '</a></div>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    Intermedio
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($clases as $clase) {
+                                        if ($clase['nivel'] == $niveles[1]) {
+                                            echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
+                                                . $clase['nombre'] .
+                                                '</a></div>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    Avanzado
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <?php
+                                    foreach ($clases as $clase) {
+                                        if ($clase['nivel'] == $niveles[2]) {
+                                            echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
+                                                . $clase['nombre'] .
+                                                '</a></div>';
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
     </main>
 
     <footer style="background-color: grey;">
@@ -200,11 +194,11 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
                 <hr style="width: 50%;">
             </div>
             <div>
-                <a href="https://www.linkedin.com/" target="_blank"><img src="resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                <a href="https://www.facebook.com/" target="_blank"><img src="resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                <a href="https://twitter.com/" target="_blank"><img src="resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                <a href="https://www.youtube.com/" target="_blank"><img src="resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                <a href="https://www.instagram.com/" target="_blank"><img src="resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+                <a href="https://www.linkedin.com/" target="_blank"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="https://www.facebook.com/" target="_blank"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="https://twitter.com/" target="_blank"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="https://www.youtube.com/" target="_blank"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="https://www.instagram.com/" target="_blank"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
             </div>
         </div>
         <div class="d-flex p-2 text-black bg-secondary">

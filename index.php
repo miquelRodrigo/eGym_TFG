@@ -1,5 +1,10 @@
 <?php
 require_once('src/clases/Deporte.php');
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $usuario = unserialize($_SESSION['user']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +57,15 @@ require_once('src/clases/Deporte.php');
                                 <a class="nav-link" href="#">Calculadora de calorías</a>
                             </li>
                             <li class="nav-item" style="justify-self: flex-end;">
-                                <a class="nav-link" href="./src/register_login.php">Iniciar sesión</a>
+                                <?php
+                                if (isset($_SESSION['user'])) {
+                                    echo '<a class="nav-link" href="#">'.
+                                    $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2']
+                                    .'</a>';
+                                } else {
+                                    echo '<a class="nav-link" href="./src/register_login.php">Iniciar sesión</a>';
+                                }
+                                ?>
                             </li>
                         </ul>
                     </div>
