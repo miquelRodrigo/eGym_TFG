@@ -54,7 +54,7 @@ if (isset($_SESSION['user'])) {
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Calculadora de calorías</a>
+                                <a class="nav-link" href="./src/calculadora.php">Calculadora de calorías</a>
                             </li>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php

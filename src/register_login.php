@@ -105,7 +105,7 @@ if (isset($_POST['sendLogin'])) {
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Calculadora de calorías</a>
+                                <a class="nav-link" href="./calculadora.php">Calculadora de calorías</a>
                             </li>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <a class="nav-link" href="#">Iniciar sesión</a>
