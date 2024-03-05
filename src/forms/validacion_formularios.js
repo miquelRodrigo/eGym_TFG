@@ -60,6 +60,25 @@ window.addEventListener(
   false
 );
 
+window.addEventListener(
+  "load",
+  function () {
+    var form = document.getElementById("frmCalculadora");
+    form.addEventListener(
+      "submit",
+      function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+          validacionCalculadoraForm();
+        }
+        form.classList.add("was-validated");
+      },
+      false
+    );
+  },
+  false
+);
 
 function validacionEmailForm() {
   const emailRegex =
@@ -162,6 +181,44 @@ function validacionLoginForm() {
     );
   } else {
     esValido("passLogin");
+  }
+}
+
+function validacionCalculadoraForm() {
+  const sexo = Array.from(document.getElementsByName("sexoRadio"));
+  const altura = document.getElementById("altura").value.trim();
+  const peso = document.getElementById("peso").value.trim();
+  const edad = document.getElementById("edad").value.trim();
+  const factor = Array.from(document.getElementsByName("factorRadio"));
+
+  if (sexo.every((item) => !item.checked)) {
+    esInvalido("sexoRadio", "Se debe seleccionar un sexo.");
+  } else {
+    esValido("sexoRadio");
+  }
+
+  if (altura == "") {
+    esInvalido("altura", "Se debe introducir una altura.");
+  } else {
+    esValido("altura");
+  }
+
+  if (peso == "") {
+    esInvalido("peso", "Se debe introducir un peso.");
+  } else {
+    esValido("peso");
+  }
+
+  if (edad == "") {
+    esInvalido("edad", "Se debe introducir una edad.");
+  } else {
+    esValido("edad");
+  }
+
+  if (factor.every((item) => !item.checked)) {
+    esInvalido("factorRadio", "Se debe seleccionar un factor de actividad.");
+  } else {
+    esValido("factorRadio");
   }
 }
 
