@@ -29,12 +29,12 @@ if (isset($_POST['sendCalculadora'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de calorías</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <link href="css/global.css" rel="stylesheet">
+
     <script defer type="text/javascript" src="./forms/validacion_formularios.js"></script>
+    <script src="https://kit.fontawesome.com/1bbcd94d9b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -56,37 +56,56 @@ if (isset($_POST['sendCalculadora'])) {
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDeportesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Deportes
+                                    <i class="fa-solid fa-heart-pulse me-1"></i>Deportes
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDeportesMenu">
                                     <?php
                                     $deportes = Deporte::getAll();
 
-                                    foreach ($deportes as $deporte) {
-                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deporte['nombre'] . '">' . $deporte['nombre'] . '</a></li>';
+                                    $iconos = [
+                                        '<i class="fa-solid fa-hand-fist me-1"></i>',
+                                        '<i class="fa-solid fa-person-running me-1"></i>',
+                                        '<i class="fa-solid fa-weight-hanging me-1"></i>',
+                                        '<i class="fa-solid fa-bicycle me-1"></i>',
+                                        '<i class="fa-solid fa-person-swimming me-1"></i>',
+                                    ];
+
+                                    for ($i = 0; $i < count($deportes); $i++) {
+                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./calculadora.php">Calculadora de calorías</a>
+                                <a class="nav-link" href="./calculadora.php">
+                                    <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
+                                </a>
                             </li>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php
                                 if (isset($_SESSION['user'])) {
                                     echo '<li class="nav-item dropdown">';
                                     echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
-                                        . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'] .
-                                        '</a>';
-                                    echo '<ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
+                                        . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'];
+
+                                    if ($usuario['tipo'] == 'usuario') {
+                                        echo '<i class="fa-solid fa-user ms-1"></i>';
+                                    } else {
+                                        echo '<i class="fa-solid fa-user-gear ms-1"></i>';
+                                    }
+                                    echo '</a><ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
                                     <li>
-                                    <a class="dropdown-item" href="#">Perfil</a>
-                                    <a class="dropdown-item" href="./../index.php?accion=cerrar_sesion">Cerrar Sesión</a>
+                                    <a class="dropdown-item" href="#">
+                                    <i class="fa-solid fa-address-card me-1"></i>
+                                    Perfil</a>
+                                    <a class="dropdown-item" href="./../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a>
                                     </li>
                                 </ul>';
                                     echo '</li>';
                                 } else {
-                                    echo '<a class="nav-link" href="./register_login.php">Iniciar sesión</a>';
+                                    echo '<a class="nav-link" href="./register_login.php">
+                                    Iniciar sesión<i class="fa-solid fa-right-to-bracket ms-1"></i>
+                                    </a>';
                                 }
                                 ?>
                             </li>

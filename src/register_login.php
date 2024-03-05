@@ -67,12 +67,12 @@ if (isset($_POST['sendLogin'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <link href="css/global.css" rel="stylesheet">
+
     <script defer type="text/javascript" src="./forms/validacion_formularios.js"></script>
+    <script src="https://kit.fontawesome.com/1bbcd94d9b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -94,23 +94,35 @@ if (isset($_POST['sendLogin'])) {
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDeportesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Deportes
+                                    <i class="fa-solid fa-heart-pulse me-1"></i>Deportes
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDeportesMenu">
                                     <?php
                                     $deportes = Deporte::getAll();
 
-                                    foreach ($deportes as $deporte) {
-                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deporte['nombre'] . '">' . $deporte['nombre'] . '</a></li>';
+                                    $iconos = [
+                                        '<i class="fa-solid fa-hand-fist me-1"></i>',
+                                        '<i class="fa-solid fa-person-running me-1"></i>',
+                                        '<i class="fa-solid fa-weight-hanging me-1"></i>',
+                                        '<i class="fa-solid fa-bicycle me-1"></i>',
+                                        '<i class="fa-solid fa-person-swimming me-1"></i>',
+                                    ];
+
+                                    for ($i = 0; $i < count($deportes); $i++) {
+                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./calculadora.php">Calculadora de calorías</a>
+                                <a class="nav-link" href="./calculadora.php">
+                                    <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
+                                </a>
                             </li>
                             <li class="nav-item" style="justify-self: flex-end;">
-                                <a class="nav-link" href="#">Iniciar sesión</a>
+                                <a class="nav-link" href="#">
+                                    Iniciar sesión <i class="fa-solid fa-right-to-bracket ms-1"></i>
+                                </a>
                             </li>
                         </ul>
                     </div>
