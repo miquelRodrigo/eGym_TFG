@@ -69,7 +69,10 @@ if(isset($_GET['accion'])) {
                                         . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'] .
                                         '</a>';
                                     echo '<ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
-                                    <li><a class="dropdown-item" href="index.php?accion=cerrar_sesion">Cerrar Sesión</a></li>
+                                    <li>
+                                    <a class="dropdown-item" href="#">Perfil</a>
+                                    <a class="dropdown-item" href="index.php?accion=cerrar_sesion">Cerrar Sesión</a>
+                                    </li>
                                 </ul>';
                                     echo '</li>';
                                 } else {

@@ -1,20 +1,22 @@
 <?php
 require_once('clases/Usuario.php');
+require_once('clases/Deporte.php');
+session_start();
+
 if (isset($_SESSION['user'])) {
-    session_start();
     $usuario = unserialize($_SESSION['user']);
 }
 
-$calorias = "SIN RESULTADO";
+if (isset($_GET['accion'])) {
+    session_destroy();
+    header('Location: ./../index.php');
+}
 
-//resolución de formulario de calorias
-if (isset($_POST['submit'])) {
-
-    //diferenciar entre mujer y hombre
-    if ($_POST['sexo'] == 'mujer') {
-        $calorias = (65 + (9.6 * $_POST['peso'])) + ((1.8 * $_POST['altura']) - (4.7 * $_POST['edad'])) * $_POST['actividad'];
+if (isset($_POST['sendCalculadora'])) {
+    if ($_POST['sexoRadio'] == 'mujerRadio') {
+        $calorias = (65 + (9.6 * $_POST['peso'])) + ((1.8 * $_POST['altura']) - (4.7 * $_POST['edad'])) * $_POST['factorRadio'];
     } else {
-        $calorias = (66 + (13.7 * $_POST['peso'])) + ((5 * $_POST['altura']) - (6.8 * $_POST['edad'])) * $_POST['actividad'];
+        $calorias = (66 + (13.7 * $_POST['peso'])) + ((5 * $_POST['altura']) - (6.8 * $_POST['edad'])) * $_POST['factorRadio'];
     }
 }
 ?>
@@ -24,137 +26,205 @@ if (isset($_POST['submit'])) {
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>calculadora</title>
-    <link rel="stylesheet" href="css/header_footer.css">
-    <link rel="stylesheet" href="css/forms.css">
+    <title>Calculadora de calorías</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link href="css/global.css" rel="stylesheet">
+    <script defer type="text/javascript" src="./forms/validacion_formularios.js"></script>
 </head>
 
 <body>
     <header>
-        <div>
-            <a href="../index.php">
-                <h1><b>e</b>Gym</h1>
-            </a>
-        </div>
-        <div>
-            <nav>
-                <ul>
-                    <li class="nav-li">
-                        <div class="dropdown">
-                            <span>deportes</span>
-                            <div class="dropdown-content">
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Calistenia">
-                                    <button type="submit" class="first-option-dropdown button-dropdown">calistenia</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Boxeo">
-                                    <button type="submit" class="button-dropdown">boxeo</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Cycling">
-                                    <button type="submit" class="button-dropdown">cycling</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Crossfit">
-                                    <button type="submit" class="button-dropdown">crossfit</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Natacion">
-                                    <button type="submit" class="button-dropdown">natación</button>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-li"><a href="#" class="link-nav">logear/registrar</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div>
-            <?php
-            if (isset($_SESSION['user'])) {
-                echo '<img src="../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png" alt="userImage" id="user-image">';
-            } else {
-                echo '<img src="../resources/fotos_usuarios/user.png" alt="userImage" id="user-image">';
-            }
-            ?>
-        </div>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a href="../index.php" class="navbar-brand mx-4">
+                    <h1><b>e</b>Gym</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <span class="offcanvas-title" id="offcanvasNavbarLabel"><b>e</b>Gym</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDeportesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Deportes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDeportesMenu">
+                                    <?php
+                                    $deportes = Deporte::getAll();
+
+                                    foreach ($deportes as $deporte) {
+                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deporte['nombre'] . '">' . $deporte['nombre'] . '</a></li>';
+                                    }
+                                    ?>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./calculadora.php">Calculadora de calorías</a>
+                            </li>
+                            <li class="nav-item" style="justify-self: flex-end;">
+                                <?php
+                                if (isset($_SESSION['user'])) {
+                                    echo '<li class="nav-item dropdown">';
+                                    echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
+                                        . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'] .
+                                        '</a>';
+                                    echo '<ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
+                                    <li>
+                                    <a class="dropdown-item" href="#">Perfil</a>
+                                    <a class="dropdown-item" href="./../index.php?accion=cerrar_sesion">Cerrar Sesión</a>
+                                    </li>
+                                </ul>';
+                                    echo '</li>';
+                                } else {
+                                    echo '<a class="nav-link" href="./register_login.php">Iniciar sesión</a>';
+                                }
+                                ?>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </header>
-    <main>
-        <article>
-            <h2 class="none">calculadora</h2>
-            <div>
-                <form method="post" action="#">
 
-                    <fieldset>
-                        <legend>Sexo</legend>
-                        <input type="radio" id="mujer" name="sexo" value="Mujer" required>
-                        <label for="mujer">Mujer</label><br>
-                        <input type="radio" id="hombre" name="sexo" value="Hombre">
-                        <label for="hombre">Hombre</label><br>
-                    </fieldset>
-    
-                    <fieldset>
-                        <legend>Altura y peso</legend>
-                        <br><label for="altura">Altura en cm</label><br>
-                        <input type="number" id="altura" name="altura" required>
-                        <label for="altura">cm</label><br>
+    <main class="mt-5">
+        <section class="container shadow-lg p-3 mb-5 bg-white rounder">
+            <h2 class="h5 mb-3 text-center"> <b>Calculadora de calorías</b> </h2>
+            <hr>
 
-                        <br><label for="peso">Peso en kilos</label><br>
-                        <input type="number" id="peso" name="peso" required>
-                        <label for="peso">kg</label><br>
+            <form name="frmCalculadora" id="frmCalculadora" method="post" action="#" novalidate>
+                <fieldset class="border rounded-3 p-3 mb-3">
+                    <legend class="float-none w-auto px-3 h6">Sexo</legend>
 
-                        <br><label for="edad">Edad</label><br>
-                        <input type="number" id="edad" name="edad" required>
-                        <label for="edad">años</label><br>
-                    </fieldset>
-    
-                    <fieldset>
-                        <legend>Factor de actividad</legend>
-                        <input type="radio" id="sedentario" name="actividad" value="1.2" required>
-                        <label for="sedentario">Sedentario</label><br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexoRadio" id="hombreRadio" required>
+                        <label class="form-check-label" for="hombreRadio">
+                            Hombre
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexoRadio" id="mujerRadio" required>
+                        <label class="form-check-label" for="mujerRadio">
+                            Mujer
+                        </label>
+                    </div>
+                    <span id="sexoRadio-info" class="invalid-feedback"></span>
+                </fieldset>
 
-                        <input type="radio" id="poco" name="actividad" value="1.375">
-                        <label for="poco">Poca actividad física (ejercicio de 1 a 3 veces por semana)</label><br>
+                <fieldset class="border rounded-3 p-3 mb-3">
+                    <legend class="float-none w-auto px-3 h6">Altura y peso</legend>
 
-                        <input type="radio" id="moderada" name="actividad" value="1.55">
-                        <label for="moderada">Actividad moderada (ejercicio de 4 a 5 veces por semana)</label><br>
+                    <div class="d-flex justify-content-between">
+                        <div class="input-group mb-3 me-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="altura" name="altura" placeholder="altura" required>
+                                <label for="altura">Altura</label>
+                            </div>
+                            <span class="input-group-text">cm</span>
+                            <span id="altura-info" class="invalid-feedback"></span>
+                        </div>
 
-                        <input type="radio" id="instensa" name="actividad" value="1.725">
-                        <label for="instensa">Actividad intensa (ejercicio de 6 a 7 veces por semana)</label><br>
+                        <div class="input-group mb-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="peso" name="peso" placeholder="altura" required>
+                                <label for="peso">Peso</label>
+                            </div>
+                            <span class="input-group-text">kg</span>
+                            <span id="peso-info" class="invalid-feedback"></span>
+                        </div>
+                    </div>
+                </fieldset>
 
-                        <input type="radio" id="profesional" name="actividad" value="1.9">
-                        <label for="profesional">Atletas profesionales (entrenamientos de más de 4 horas diarias)</label><br>
-                    </fieldset>
+                <fieldset class="border rounded-3 p-3 mb-3">
+                    <legend class="float-none w-auto px-3 h6">Edad</legend>
 
-                    <input type="submit" value="Calcular" name="submit">                    
-                </form>
-                <br>
-                <p><b><?php echo $calorias; ?></b></p>
-                
-            </div>
-        </article>
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="edad" name="edad" placeholder="edad" required>
+                        <label for="edad">Edad</label>
+                        <span id="edad-info" class="invalid-feedback"></span>
+                    </div>
+                </fieldset>
+
+                <fieldset class="border rounded-3 p-3 mb-3">
+                    <legend class="float-none w-auto px-3 h6">Factor de actividad</legend>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="factorRadio" id="sendentarioRadio" value="1.2" required>
+                        <label class="form-check-label" for="sendentarioRadio">
+                            Sedentario
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="factorRadio" id="pocoRadio" value="1.375" required>
+                        <label class="form-check-label" for="pocoRadio">
+                            Poca actividad física (ejercicio de 1 a 3 veces por semana)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="factorRadio" id="moderadoRadio" value="1.55" required>
+                        <label class="form-check-label" for="moderadoRadio">
+                            Actividad moderada (ejercicio de 4 a 5 veces por semana)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="factorRadio" id="intensoRadio" value="1.725" required>
+                        <label class="form-check-label" for="intensoRadio">
+                            Actividad intensa (ejercicio de 6 a 7 veces por semana)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="factorRadio" id="proRadio" value="1.9" required>
+                        <label class="form-check-label" for="proRadio">
+                            Atletas profesionales (entrenamientos de más de 4 horas diarias)
+                        </label>
+                    </div>
+                    <span id="factorRadio-info" class="invalid-feedback"></span>
+                </fieldset>
+
+                <button type="submit" name="sendCalculadora" class="btn btn-primary w-100">Calcular</button>
+            </form>
+        </section>
+
+        <?php
+        if (isset($calorias)) {
+            echo $calorias;
+        }
+        ?>
     </main>
-    <footer>
-        <h2 class="none"></h2>
-        <div>
-            <div id="box-title">
-                <h3><b>e</b>Gym</h3>
+
+    <footer style="background-color: grey;">
+        <h2 class="none">Footer</h2>
+        <div class="d-flex my-5 flex-column text-center justify-content-center">
+            <div class="p-0">
+                <h3 class="text-black mb-2 fs-1"><b>e</b>Gym</h3>
             </div>
-            <div id="box-icons">
-                <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+            <div class="container d-flex justify-content-center" style="color: white;">
+                <hr style="width: 50%;">
+            </div>
+            <div>
+                <a href="https://www.linkedin.com/" target="_blank"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="https://www.facebook.com/" target="_blank"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="https://twitter.com/" target="_blank"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="https://www.youtube.com/" target="_blank"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="https://www.instagram.com/" target="_blank"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
             </div>
         </div>
-        <div id="web-info">
+        <div class="d-flex p-2 text-black bg-secondary">
             <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 
 </html>
