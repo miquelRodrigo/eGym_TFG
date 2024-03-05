@@ -213,11 +213,11 @@ class Usuario
             $conexion = $core->conexion;
 
             // Se consulta la tabla usuarios_deportes
-            $select = $conexion->prepare('SELECT count(*) FROM usuarios WHERE email = :email');
+            $select = $conexion->prepare('SELECT * FROM usuarios WHERE email = :email');
             $select->bindParam(':email', $email);
             $select->execute();
 
-            if ($select->fetch() > 0) {
+            if ($select->rowCount() == 0) {
                 return false;
             } else {
                 return true;

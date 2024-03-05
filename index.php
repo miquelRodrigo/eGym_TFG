@@ -5,6 +5,11 @@ session_start();
 if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
 }
+
+if(isset($_GET['accion'])) {
+    session_destroy();
+    header('Location: ./index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,9 +64,14 @@ if (isset($_SESSION['user'])) {
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php
                                 if (isset($_SESSION['user'])) {
-                                    echo '<a class="nav-link" href="#">'.
-                                    $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2']
-                                    .'</a>';
+                                    echo '<li class="nav-item dropdown">';
+                                    echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
+                                        . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'] .
+                                        '</a>';
+                                    echo '<ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
+                                    <li><a class="dropdown-item" href="index.php?accion=cerrar_sesion">Cerrar Sesión</a></li>
+                                </ul>';
+                                    echo '</li>';
                                 } else {
                                     echo '<a class="nav-link" href="./src/register_login.php">Iniciar sesión</a>';
                                 }

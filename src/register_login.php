@@ -34,6 +34,8 @@ if (isset($_POST['sendRegistro'])) {
         move_uploaded_file($_FILES['imgUsuario']['tmp_name'], $ruta . '/' . $dni . '.png');
     }
 
+    $usuario = Usuario::getUsuarioByEmail($email);
+
     // Se crea la sesión
     $_SESSION['user'] = serialize($usuario);
 
@@ -50,7 +52,7 @@ if (isset($_POST['sendLogin'])) {
         $_SESSION['user'] = serialize($usuario);
         header('Location: ./../index.php');
     } else {
-        echo '<div class="alert alert-danger" role="alert">';
+        echo '<div class="alert alert-danger mt-5" role="alert">';
         echo 'La constraseña es incorrecta';
         echo '</div>';
     }
