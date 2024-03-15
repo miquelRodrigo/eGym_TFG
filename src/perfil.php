@@ -1,9 +1,14 @@
 <?php
-require_once('clases/usuario.php');
+require_once('clases/Usuario.php');
+require_once('clases/Deporte.php');
+require_once('clases/Clase.php');
 session_start();
 
 if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
+    $nivelesUsuario = Usuario::getUsuarioDeportes($usuario['dni']);
+} else {
+    header('Location: ./../index.php');
 }
 ?>
 
@@ -12,134 +17,174 @@ if (isset($_SESSION['user'])) {
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil</title>
-    <link rel="stylesheet" href="css/header_footer.css">
-    <link rel="stylesheet" href="css/forms.css">
+    <title>Perfil</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <link href="css/global.css" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/1bbcd94d9b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header>
-        <div>
-            <a href="../index.php">
-                <h1><b>e</b>Gym</h1>
-            </a>
-        </div>
-        <div>
-            <nav>
-                <ul>
-                    <li class="nav-li">
-                        <div class="dropdown">
-                            <span>deportes</span>
-                            <div class="dropdown-content">
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Calistenia">
-                                    <button type="submit" class="first-option-dropdown button-dropdown">calistenia</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Boxeo">
-                                    <button type="submit" class="button-dropdown">boxeo</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Cycling">
-                                    <button type="submit" class="button-dropdown">cycling</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Crossfit">
-                                    <button type="submit" class="button-dropdown">crossfit</button>
-                                </form>
-                                <form action="deportes.php" method="post">
-                                    <input type="hidden" name="deporte" value="Natacion">
-                                    <button type="submit" class="button-dropdown">natación</button>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-li"><a href="register_login.php" class="link-nav">logear/regisolar</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div>
-            <?php
-            if (isset($_SESSION['user'])) {
-                echo '<img src="../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png" alt="userImage" id="user-image">';
-            } else {
-                echo '<img src="../resources/fotos_usuarios/user.png" alt="userImage" id="user-image">';
-            }
-            ?>
-        </div>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+            <div class="container-fluid">
+                <a href="../index.php" class="navbar-brand mx-4">
+                    <h1><b>e</b>Gym</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <span class="offcanvas-title" id="offcanvasNavbarLabel"><b>e</b>Gym</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDeportesMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-heart-pulse me-1"></i>Deportes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDeportesMenu">
+                                    <?php
+                                    $deportes = Deporte::getAll();
+
+                                    $iconos = [
+                                        '<i class="fa-solid fa-hand-fist me-1"></i>',
+                                        '<i class="fa-solid fa-person-running me-1"></i>',
+                                        '<i class="fa-solid fa-weight-hanging me-1"></i>',
+                                        '<i class="fa-solid fa-bicycle me-1"></i>',
+                                        '<i class="fa-solid fa-person-swimming me-1"></i>',
+                                    ];
+
+                                    for ($i = 0; $i < count($deportes); $i++) {
+                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
+                                    }
+                                    ?>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./calculadora.php">
+                                    <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
+                                </a>
+                            </li>
+                            <li class="nav-item" style="justify-self: flex-end;">
+                                <?php
+                                echo '<li class="nav-item dropdown">';
+                                echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
+                                    . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'];
+
+                                echo '<img src="../resources/fotos_usuarios/' . $usuario['dni'] . '.png" alt="imgPerfil" width="30" height="30" style="border-radius: 100%;" class="ms-1">';
+
+                                echo '</a><ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
+                                    <li>
+                                    <a class="dropdown-item" href="./perfil.php">
+                                    <i class="fa-solid fa-address-card me-1"></i>
+                                    Perfil</a>';
+
+                                if ($usuario['tipo'] == 'administrador') {
+                                    echo '<a class="dropdown-item" href="#">
+                                        <i class="fa-solid fa-user-gear me-1"></i>
+                                        Administración de usuarios</a>';
+                                }
+
+                                echo '<hr />
+                                    <div class="text-center"><a class="btn btn-danger" href="../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    </li>
+                                </ul>';
+                                echo '</li>';
+                                ?>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <main>
-        <article id="container">
-            <h2 class="none">login-reisolo</h2>
-            <section class="section1-form-perfil section1-form">
-                <img src="../resources/fotos_usuarios/<?php
-                                                        echo $usuario->imagenUsuario ?>.png" alt="userImage" id="perfil-user-image">
-                <div>
-                    <ul id="lista">
-                        <li><?php echo $usuario->nombreUsuario.' '.$usuario->apellido1.' '.$usuario->apellido2?></li>
-                        <li><?php echo $usuario->dni ?></li>
-                        <li><?php echo $usuario->mail ?></li>
-                    </ol>
+    <main class="mt-5">
+        <section class="container w-50 d-block shadow-lg p-3 mb-5 bg-white rounder">
+            <h2 class="h5 mb-3 text-center"> <b>Perfil</b> </h2>
+            <hr>
+
+            <article>
+                <h3 class="h6 text-center text-decoration-underline">Información General</h3>
+                <div class="row">
+                    <div class="col-lg-6 d-flex justify-content-center">
+                        <img src="../resources/fotos_usuarios/<?= $usuario['dni'] ?>.png" alt="imgUser" width="200" height="200" style="border-radius: 100%;">
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <td><?= $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td><?= $usuario['email'] ?></td>
+                                </tr>
+                                <tr>
+                                    <th>DNI</th>
+                                    <td><?= $usuario['dni'] ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </section>
-            <section class="section2-form">
-                <div id="sesion">
-                    <form method="post" action="#">
-                        <button type="submit" name="cerrar_sesion" onclick="<?php echo 'hola' ?>">Cerrar sesión</button>
-                        <button type="submit" name="darse_baja">Darse de baja</button>
+            </article>
+
+            <article>
+                <h3 class="h6 text-center mt-3 text-decoration-underline">Deportes</h3>
+
+                <table class="table table-striped text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Deporte</th>
+                            <th>Nivel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        if ($usuario->tipo_usuario == 'administrador') {
-                            echo '<button type="submit" name="administrar_usuarios">Administrar usuarios</button>';
+                        for ($i = 0; $i < count($nivelesUsuario); $i++) {
+                            echo '<tr>';
+                            echo '<td>' . $nivelesUsuario[$i]['deporte'] . '<span class="ms-2">' . $iconos[$i] . '</span></td>';
+                            echo '<td>' . $nivelesUsuario[$i]['nivel'] . '</td>';
+                            echo '</tr>';
                         }
                         ?>
-                    </form>
-                    <?php
-                    if (isset($_POST['cerrar_sesion'])) {
-                        session_destroy();
-                        header('Location: ../index.php');
-                    } else if (isset($_POST['darse_baja'])) {
-                        unlink('../resources/fotos_usuarios/' . $usuario->imagenUsuario . '.png');
-                        session_destroy();
-                        $usuario->delete($usuario->dni);
-                        header('Location: ../index.php');
-                    } else if (isset($_POST['administrar_usuarios'])) {
-                        header('Location: admin_users.php');
-                    }
-                    ?>
-                </div>
-                <div id="linea"></div>
-                <!-- <div id="niveles">
-                    <span><b>Natación</b><?php //echo ' ' . $usuario->nivelNatacion ?></span>
-                    <span><b>Crossfit</b><?php //echo ' ' . $usuario->nivelCrossfit ?></span>
-                    <span><b>Cycling</b><?php //echo ' ' . $usuario->nivelCycling ?></span>
-                    <span><b>Boxeo</b><?php //echo ' ' . $usuario->nivelBoxeo ?></span>
-                    <span><b>Calistenia</b><?php //echo ' ' . $usuario->nivelCalistenia ?></span>
-                </div> -->
-            </section>
-        </article>
+                    </tbody>
+                </table>
+            </article>
+        </section>
     </main>
 
-    <footer>
-        <h2 class="none"></h2>
-        <div>
-            <div id="box-title">
-                <h3><b>e</b>Gym</h3>
+    <footer style="background-color: grey;">
+        <h2 class="none">Footer</h2>
+        <div class="d-flex my-5 flex-column text-center justify-content-center">
+            <div class="p-0">
+                <h3 class="text-black mb-2 fs-1"><b>e</b>Gym</h3>
             </div>
-            <div id="box-icons">
-                <a href="#"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                <a href="#"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+            <div class="container d-flex justify-content-center" style="color: white;">
+                <hr style="width: 50%;">
+            </div>
+            <div>
+                <a href="https://www.linkedin.com/" target="_blank"><img src="../resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="https://www.facebook.com/" target="_blank"><img src="../resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="https://twitter.com/" target="_blank"><img src="../resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="https://www.youtube.com/" target="_blank"><img src="../resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="https://www.instagram.com/" target="_blank"><img src="../resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
             </div>
         </div>
-        <div id="web-info">
+        <div class="d-flex p-2 text-black bg-secondary">
             <span>Miquel Rodrigo Navarro | ©Copyright | www.egym.com | v.01</span>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 
 </html>

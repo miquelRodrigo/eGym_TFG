@@ -54,8 +54,6 @@ class Clase
             $core = Core::getInstancia();
             $conexion = $core->conexion;
 
-            $conexion->beginTransaction();
-            // Query
             $insert = $conexion->prepare('INSERT INTO clases (nombre, video, nivel, idDeporte)
                 VALUES (:nombre, :video, :nivel, :nombreDeporte);');
             $insert->bindParam(':nombre', $clase->nombre);
@@ -84,7 +82,6 @@ class Clase
             $core = Core::getInstancia();
             $conexion = $core->conexion;
 
-            // Se consulta la tabla usuarios_deportes
             $select = $conexion->prepare('SELECT * FROM clases WHERE idClase = :idClase');
             $select->bindParam(':idClase', $idClase);
             $select->execute();
@@ -105,12 +102,38 @@ class Clase
             $core = Core::getInstancia();
             $conexion = $core->conexion;
 
-            // Se consulta la tabla videos dependiendo de la clase
             $select = $conexion->prepare('SELECT * FROM clases WHERE idDeporte = :idDeporte');
             $select->bindParam(':idDeporte', $idDeporte);
             $select->execute();
 
-            $clases = array();
+            $clases = [];
+
+            while ($registro = $select->fetch()) {
+                array_push($clases, $registro);
+            }
+
+            return $clases;
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function getByDeporteAndNivel($idDeporte, $nivel)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            $select = $conexion->prepare('SELECT * FROM clases WHERE idDeporte = :idDeporte AND nivel = :nivel;');
+            $select->bindParam(':idDeporte', $idDeporte);
+            $select->bindParam(':nivel', $nivel);
+            $select->execute();
+
+            $clases = [];
 
             while ($registro = $select->fetch()) {
                 array_push($clases, $registro);

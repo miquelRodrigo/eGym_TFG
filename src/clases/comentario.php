@@ -2,27 +2,21 @@
 require_once('Core.php');
 class Comentario
 {
-    protected $idComentario;
     protected $dni;
     protected $texto;
     protected $fecha;
-    protected $calificacion;
     protected $idClase;
 
     // Constructor
     function _construct(
-        $idComentario,
         $dni,
         $texto,
         $fecha,
-        $calificacion,
         $idClase
     ) {
-        $this->idComentario = $idComentario;
         $this->dni = $dni;
         $this->texto = $texto;
         $this->fecha = $fecha;
-        $this->calificacion = $calificacion;
         $this->idClase = $idClase;
     }
 
@@ -56,13 +50,12 @@ class Comentario
             $conexion = $core->conexion;
 
             $conexion->beginTransaction();
-            // Query
-            $insert = $conexion->prepare('INSERT INTO comentarios (dni, texto, fecha, calificacion, idClase) 
-                VALUES (:dni, :texto, :fecha, :calificacion, :idClase);');
+
+            $insert = $conexion->prepare('INSERT INTO comentarios (dni, texto, fecha, idClase) 
+                VALUES (:dni, :texto, :fecha, :idClase);');
             $insert->bindParam(':dni', $comentario->dni);
             $insert->bindParam(':texto', $comentario->texto);
             $insert->bindParam(':fecha', $comentario->fecha);
-            $insert->bindParam(':calificacion', $comentario->calificacion);
             $insert->bindParam(':idClase', $comentario->idClase);
 
             if (!$insert->execute()) {
