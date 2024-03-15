@@ -135,7 +135,7 @@ if (isset($_POST['sendLogin'])) {
         <?php
         if ($tipoForm == 'email') {
         ?>
-            <section class="container shadow-lg p-3 mb-5 bg-white rounded">
+            <section class="container col-lg-6 shadow-lg p-3 mb-5 bg-white rounded">
                 <p class="text-center">Registrarse o iniciar sesión</p>
                 <hr>
                 <h2 class="h5 mb-3"><b>Bienvenido a eGym</b></h2>
@@ -156,7 +156,7 @@ if (isset($_POST['sendLogin'])) {
         <?php
         if ($tipoForm == 'register') {
         ?>
-            <section class="container shadow-lg p-3 mb-5 bg-white rounded">
+            <section class="container col-lg-6 shadow-lg p-3 mb-5 bg-white rounded">
                 <p class="text-center">Registrarse</p>
                 <hr>
                 <h2 class="h5 mb-3"><b>Bienvenido a eGym</b></h2>
@@ -221,7 +221,7 @@ if (isset($_POST['sendLogin'])) {
         <?php
         if ($tipoForm == 'login') {
         ?>
-            <section class="container shadow-lg p-3 mb-5 bg-white rounded">
+            <section class="container col-lg-6 shadow-lg p-3 mb-5 bg-white rounded">
                 <p class="text-center">Iniciar sesión</p>
                 <hr>
                 <h2 class="h5 mb-3"><b>Bienvenido a eGym</b></h2>

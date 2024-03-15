@@ -182,7 +182,7 @@ class Usuario
     }
 
     /**
-     * Método que devuelve una consulta con la información de la tabla usuarios_deportes
+     * Método que devuelve el nivel de un usuario en un deporte concreto
      */
     public static function getUsuarioDeporte($dni, $idDeporte)
     {
@@ -192,18 +192,46 @@ class Usuario
             $conexion = $core->conexion;
 
             // Se consulta la tabla usuarios_deportes
-            $select = $conexion->prepare('SELECT nombreDeporte, nivel FROM usuarios_deportes ud INNER JOIN deportes d on ud.idDeporte = d.idDeporte WHERE dni = :dni AND idDeporte = :idDeporte');
+            $select = $conexion->prepare('SELECT nivel FROM usuarios_deportes ud WHERE ud.dni = :dni AND ud.idDeporte = :idDeporte');
             $select->bindParam(':dni', $dni);
             $select->bindParam(':idDeporte', $idDeporte);
+            $select->execute();
 
-            return $select;
+            return $select->fetch();
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }
     }
 
     /**
-     * 
+     * Método que devuelve el nivel de un usuario en todos los deportes
+     */
+    public static function getUsuarioDeportes($dni)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla usuarios_deportes
+            $select = $conexion->prepare('SELECT nombre deporte, nivel FROM usuarios_deportes ud INNER JOIN deportes d ON ud.idDeporte = d.idDeporte WHERE ud.dni = :dni;');
+            $select->bindParam(':dni', $dni);
+            $select->execute();
+
+            $nivelesUsuario = [];
+
+            while ($registro = $select->fetch()) {
+                array_push($nivelesUsuario, $registro);
+            }
+
+            return $nivelesUsuario;
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Método que comprueba si el email existe en la base de datos
      */
     public static function checkUsuarioByEmail($email)
     {
@@ -228,7 +256,7 @@ class Usuario
     }
 
     /**
-     * 
+     * Método que devuelve el usuario por el email
      */
     public static function getUsuarioByEmail($email)
     {

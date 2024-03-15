@@ -4,38 +4,25 @@ require_once('clases/Deporte.php');
 require_once('clases/Clase.php');
 session_start();
 
-if (isset($_SESSION['user'])) {
-    $usuario = unserialize($_SESSION['user']);
-}
-
-if (isset($_GET['accion'])) {
-    session_destroy();
-    header('Location: ./../index.php');
-}
-
 // Información deporte
 $deporteActual = Deporte::getByName($_GET['deporte']);
+
+if (isset($_SESSION['user'])) {
+    $usuario = unserialize($_SESSION['user']);
+
+    $nivelUsuario = Usuario::getUsuarioDeporte($usuario['dni'], $deporteActual['idDeporte']);
+
+    // La primera clase que va a salir cuando entremos en un deporte
+    $claseThumbnail = Clase::getByDeporteAndNivel($deporteActual['idDeporte'], $nivelUsuario['nivel'])[0];
+} else {
+    $claseThumbnail = Clase::getByDeporteAndNivel($deporteActual['idDeporte'], 'principiante')[0];
+}
 
 // Información clases
 $clases = Clase::getByDeporte($deporteActual['idDeporte']);
 
 // Niveles de deporte
 $niveles = ['principiante', 'intermedio', 'avanzado'];
-
-//nivel y nombre de la clase
-$nivel;
-$nombreClase;
-
-/* if ($EstaRegistrado) {
-    $usuario = Usuario::getUsuarios_clases($_SESSION['user']->dni, $clase->nombreClase);
-    $usuario->execute();
-    while ($registro = $usuario->fetch()) {
-        $nombreClase = $registro['nombreClase'];
-        $nivel = $registro['nivel'];
-    }
-} else {
-    $nivel = 'Regístrate para ver el contenido completo';
-} */
 ?>
 
 <!DOCTYPE html>
@@ -104,17 +91,22 @@ $nombreClase;
                                     echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
                                         . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'];
 
-                                    if ($usuario['tipo'] == 'usuario') {
-                                        echo '<i class="fa-solid fa-user ms-1"></i>';
-                                    } else {
-                                        echo '<i class="fa-solid fa-user-gear ms-1"></i>';
-                                    }
+                                    echo '<img src="../resources/fotos_usuarios/' . $usuario['dni'] . '.png" alt="imgPerfil" width="30" height="30" style="border-radius: 100%;" class="ms-1">';
+
                                     echo '</a><ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
                                     <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="./perfil.php">
                                     <i class="fa-solid fa-address-card me-1"></i>
-                                    Perfil</a>
-                                    <a class="dropdown-item" href="./../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a>
+                                    Perfil</a>';
+
+                                    if ($usuario['tipo'] == 'administrador') {
+                                        echo '<a class="dropdown-item" href="#">
+                                        <i class="fa-solid fa-user-gear me-1"></i>
+                                        Administración de usuarios</a>';
+                                    }
+
+                                    echo '<hr />
+                                    <div class="text-center"><a class="btn btn-danger" href="../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
@@ -145,7 +137,7 @@ $nombreClase;
             <div class="d-flex">
                 <article class="w-75">
                     <h3 class="none"> Videos </h3>
-                    <iframe src="./../index.php" name="video_clase" class="w-100" height="700"></iframe>
+                    <iframe src="./clases_videos.php?clase=<?= $claseThumbnail['idClase'] ?>" name="video_clase" class="w-100" height="700"></iframe>
                 </article>
 
                 <article class="w-25">

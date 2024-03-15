@@ -20,11 +20,11 @@ if (isset($_GET['accion'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eGym</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https:cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
     <link href="src/css/global.css" rel="stylesheet">
 
-    <script src="https://kit.fontawesome.com/1bbcd94d9b.js" crossorigin="anonymous"></script>
+    <script src="https:kit.fontawesome.com/1bbcd94d9b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -78,17 +78,22 @@ if (isset($_GET['accion'])) {
                                     echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
                                         . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'];
 
-                                    if ($usuario['tipo'] == 'usuario') {
-                                        echo '<i class="fa-solid fa-user ms-1"></i>';
-                                    } else {
-                                        echo '<i class="fa-solid fa-user-gear ms-1"></i>';
-                                    }
+                                    echo '<img src="./resources/fotos_usuarios/' . $usuario['dni'] . '.png" alt="imgPerfil" width="30" height="30" style="border-radius: 100%;" class="ms-1">';
+
                                     echo '</a><ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
                                     <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="./src/perfil.php">
                                     <i class="fa-solid fa-address-card me-1"></i>
-                                    Perfil</a>
-                                    <a class="dropdown-item" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a>
+                                    Perfil</a>';
+
+                                    if ($usuario['tipo'] == 'administrador') {
+                                        echo '<a class="dropdown-item" href="#">
+                                        <i class="fa-solid fa-user-gear me-1"></i>
+                                        Administración de usuarios</a>';
+                                    }
+
+                                    echo '<hr />
+                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
@@ -103,7 +108,7 @@ if (isset($_GET['accion'])) {
                     </div>
                 </div>
             </div>
-        </nav>
+        </nav> 
     </header>
 
     <main>
@@ -278,11 +283,11 @@ if (isset($_GET['accion'])) {
                 <hr style="width: 50%;">
             </div>
             <div>
-                <a href="https://www.linkedin.com/" target="_blank"><img src="resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
-                <a href="https://www.facebook.com/" target="_blank"><img src="resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
-                <a href="https://twitter.com/" target="_blank"><img src="resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
-                <a href="https://www.youtube.com/" target="_blank"><img src="resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
-                <a href="https://www.instagram.com/" target="_blank"><img src="resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
+                <a href="https:www.linkedin.com/" target="_blank"><img src="resources/iconos/linkedin.png" alt="linkedin" class="social-icon"></a>
+                <a href="https:www.facebook.com/" target="_blank"><img src="resources/iconos/facebook.png" alt="facebook" class="social-icon"></a>
+                <a href="https:twitter.com/" target="_blank"><img src="resources/iconos/twitter.png" alt="twitter" class="social-icon"></a>
+                <a href="https:www.youtube.com/" target="_blank"><img src="resources/iconos/youtube.png" alt="youtube" class="social-icon"></a>
+                <a href="https:www.instagram.com/" target="_blank"><img src="resources/iconos/instagram.png" alt="instagram" class="social-icon"></a>
             </div>
         </div>
         <div class="d-flex p-2 text-black bg-secondary">
@@ -290,7 +295,7 @@ if (isset($_GET['accion'])) {
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https:cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 
 </html>

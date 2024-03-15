@@ -1,9 +1,21 @@
 <?php
 require_once('clases/Clase.php');
 require_once('clases/Comentario.php');
+session_start();
 
+if (isset($_SESSION['user'])) {
+    $usuario = unserialize($_SESSION['user']);
+}
+echo $usuario['dni'] . '<br/>';
 $claseActual = Clase::getClaseById($_GET['clase']);
-$comentarios = Comentario::getAllByClase($claseActual['idClase'])
+
+if(isset($_POST['sendComentario'])) {
+    $dni = $usuario['dni'];
+    $comentario = new Comentario();
+    //Comentario::insert($comentario);
+}
+
+$comentarios = Comentario::getAllByClase($claseActual['idClase']);
 ?>
 
 <!DOCTYPE html>
@@ -32,18 +44,21 @@ $comentarios = Comentario::getAllByClase($claseActual['idClase'])
         <section class="container">
             <?= '<h2>Comentarios (' . count($comentarios)  . ')</h2>' ?>
 
-            <form class="d-flex flex-column">
-                <div class="mb-3">
-                    <label for="comentario" class="form-label">Añade un comentario</label>
-                    <textarea class="form-control" id="comentario" rows="3"></textarea>
-                </div>
-
-                <button type="button" class="btn btn-primary align-self-end">Comentar</button>
-            </form>
-
             <?php
-            if (count($comentarios) == 0) {
-                echo '<h3 class="h5"><b>Se el primero en comentar!!<b></h3>';
+            if (isset($usuario)) {
+            ?>
+                <form class="d-flex flex-column" method="post" action="#">
+                    <div class="mb-3">
+                        <label for="comentario" class="form-label">Añade un comentario</label>
+                        <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+                    </div>
+
+                    <button type="submit" name="sendComentario" class="btn btn-primary align-self-end">Comentar</button>
+                </form>
+            <?php
+                if (count($comentarios) == 0) {
+                    echo '<h3 class="h5"><b>Se el primero en comentar!!<b></h3>';
+                }
             }
 
             foreach ($comentarios as $comentario) {

@@ -7,11 +7,6 @@ if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
 }
 
-if (isset($_GET['accion'])) {
-    session_destroy();
-    header('Location: ./../index.php');
-}
-
 if (isset($_POST['sendCalculadora'])) {
     if ($_POST['sexoRadio'] == 'mujerRadio') {
         $calorias = (65 + (9.6 * $_POST['peso'])) + ((1.8 * $_POST['altura']) - (4.7 * $_POST['edad'])) * $_POST['factorRadio'];
@@ -88,17 +83,22 @@ if (isset($_POST['sendCalculadora'])) {
                                     echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
                                         . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'];
 
-                                    if ($usuario['tipo'] == 'usuario') {
-                                        echo '<i class="fa-solid fa-user ms-1"></i>';
-                                    } else {
-                                        echo '<i class="fa-solid fa-user-gear ms-1"></i>';
-                                    }
+                                    echo '<img src="../resources/fotos_usuarios/' . $usuario['dni'] . '.png" alt="imgPerfil" width="30" height="30" style="border-radius: 100%;" class="ms-1">';
+
                                     echo '</a><ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
                                     <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="./perfil.php">
                                     <i class="fa-solid fa-address-card me-1"></i>
-                                    Perfil</a>
-                                    <a class="dropdown-item" href="./../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a>
+                                    Perfil</a>';
+
+                                    if ($usuario['tipo'] == 'administrador') {
+                                        echo '<a class="dropdown-item" href="#">
+                                        <i class="fa-solid fa-user-gear me-1"></i>
+                                        Administración de usuarios</a>';
+                                    }
+
+                                    echo '<hr />
+                                    <div class="text-center"><a class="btn btn-danger" href="../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
