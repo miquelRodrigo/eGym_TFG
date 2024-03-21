@@ -8,7 +8,7 @@ class Comentario
     protected $idClase;
 
     // Constructor
-    function _construct(
+    function __construct(
         $dni,
         $texto,
         $fecha,

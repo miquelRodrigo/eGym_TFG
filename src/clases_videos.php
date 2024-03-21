@@ -9,9 +9,11 @@ if (isset($_SESSION['user'])) {
 $claseActual = Clase::getClaseById($_GET['clase']);
 
 if(isset($_POST['sendComentario'])) {
+    date_default_timezone_get();
+
     $dni = $usuario['dni'];
-    $comentario = new Comentario();
-    //Comentario::insert($comentario);
+    $comentario = new Comentario($dni, $_POST['comentario'], date('Y-m-d'), $claseActual['idClase']);
+    Comentario::insert($comentario);
 }
 
 $comentarios = Comentario::getAllByClase($claseActual['idClase']);
