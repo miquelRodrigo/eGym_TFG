@@ -6,7 +6,6 @@ session_start();
 if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
 }
-echo $usuario['dni'] . '<br/>';
 $claseActual = Clase::getClaseById($_GET['clase']);
 
 if(isset($_POST['sendComentario'])) {

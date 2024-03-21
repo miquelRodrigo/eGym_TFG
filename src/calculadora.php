@@ -216,7 +216,32 @@ if (isset($_POST['sendCalculadora'])) {
 
         <?php
         if (isset($calorias)) {
-            echo $calorias;
+            echo 
+            '<section class="container shadow-lg p-3 mb-5 bg-white rounder d-flex flex-column text-center justify-content-center">
+                <h2 class="h5 mb-3 text-center"> <b>Resultado</b> </h2>
+                <p>
+                    Su consumo diario de calorías es de <b>'. $calorias .'</b>. Conociendo éste dato podemos ofrecerle dos opciones según lo que necesite.
+                </p>
+                <div class="d-flex d-grid gap-5">
+                    <article>
+                        <h3 class="h5 mb-3 text-center"> <b>Bajar de peso</b> </h3>
+                        <p>
+                        Para mantener una bajada de peso controlada y saludable deberías consumir entre 200 y 500 calorías menos al dia, 
+                        lo que en tu caso serían entre <b>'. $calorias - 200 .'</b> y <b>'. $calorias - 500 .'</b>.
+                        Y recuerda, esas calorías las tienes que ingerir de forma saludable, no con comidas ultraprocesadas o de mala calidad nutricional.
+                        </p>
+                    </article>
+                    <article>
+                        <h3 class="h5 mb-3 text-center"> <b>Bajar de peso</b> </h3>
+                        <p>
+                        Para mantener una subida de peso controlada y saludable deberías consumir entre 200 y 500 calorías más al dia, 
+                        lo que en tu caso serían entre <b>'. $calorias + 200 .'</b> y <b>'. $calorias + 500 .'</b>.
+                        Y recuerda, esas calorías las tienes que ingerir de forma saludable, no con comidas ultraprocesadas o de mala calidad nutricional.
+                        </p>
+                    </article>
+                </div>
+            </section>
+            ';
         }
         ?>
     </main>

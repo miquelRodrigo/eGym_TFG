@@ -89,7 +89,10 @@ if (isset($_GET['accion'])) {
                                     if ($usuario['tipo'] == 'administrador') {
                                         echo '<a class="dropdown-item" href="#">
                                         <i class="fa-solid fa-user-gear me-1"></i>
-                                        Administración de usuarios</a>';
+                                        Administración de usuarios</a>
+                                        <a class="dropdown-item" href="src/subir_video.php">
+                                        <i class="fa-solid fa-user-gear me-1"></i>
+                                        Subir video</a>';
                                     }
 
                                     echo '<hr />
@@ -126,9 +129,13 @@ if (isset($_GET['accion'])) {
 
                         <div class="container">
                             <div class="carousel-caption text-start">
-                                <h1>Example headline.</h1>
-                                <p>Some representative placeholder content for the first slide of the carousel.</p>
-                                <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                                <h1>¡Cambia tu vida!</h1>
+                                <p>Sentirse mejor con uno mismo nunca fue tan fácil</p>
+                                <?php 
+                                if(!isset($_SESSION['user'])) {
+                                    echo '<p><a class="btn btn-md btn-dark" href="./src/register_login.php">EMPIEZA YA</a></p>';
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -137,9 +144,15 @@ if (isset($_GET['accion'])) {
 
                         <div class="container">
                             <div class="carousel-caption text-start">
-                                <h1>Another example headline.</h1>
-                                <p>Some representative placeholder content for the second slide of the carousel.</p>
-                                <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                                <h1>¿Qué deporte elejir?</h1>
+                                <p>En nuestra web dispones de 5 modalidades diferentes de deportes en los que iniciarte</p>
+                                <div class="d-flex justify-content-around">
+                                    <p><a class="btn btn-md btn-dark" href="src/deportes.php?deporte=Boxeo">BOXEO</a></p>
+                                    <p><a class="btn btn-md btn-dark" href="src/deportes.php?deporte=Calistenia">CALISTENIA</a></p>
+                                    <p><a class="btn btn-md btn-dark" href="src/deportes.php?deporte=Natacion">NATACIÓN</a></p>
+                                    <p><a class="btn btn-md btn-dark" href="src/deportes.php?deporte=Crossfit">CROSSFIT</a></p>
+                                    <p><a class="btn btn-md btn-dark" href="src/deportes.php?deporte=Cycling">CYCLING</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -148,9 +161,8 @@ if (isset($_GET['accion'])) {
 
                         <div class="container">
                             <div class="carousel-caption text-start">
-                                <h1>One more for good measure.</h1>
-                                <p>Some representative placeholder content for the third slide of this carousel.</p>
-                                <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                                <h1>¿Nos ponemos en forma?</h1>
+                                <p>Sigue los videos desde donde tu quieras y practica por tu cuenta</p>
                             </div>
                         </div>
                     </div>
@@ -209,7 +221,7 @@ if (isset($_GET['accion'])) {
                     <p class="lead">Recuerda, cada campeón comenzó como un principiante, y tú estás en el camino para convertirte en uno. Habrá momentos en los que te sentirás agotado, desmotivado o incluso tentado a rendirte. Pero permíteme recordarte que dentro de ti hay una fuerza inquebrantable, una determinación que te llevará más allá de tus límites.</p>
                 </div>
                 <div class="col-md-5">
-                    <img width="500" height="500" class="img-fluid mx-auto" src="./resources/imagenes/principiante.png" alt="imagenPrincipiante">
+                    <img width="300" class="img-fluid mx-auto" src="./resources/imagenes/principiante.jpg" alt="imagenPrincipiante">
                 </div>
             </article>
 
@@ -221,7 +233,7 @@ if (isset($_GET['accion'])) {
                     <p class="lead">No te compares con los demás, tu único competidor eres tú mismo(a). Cada persona tiene su propio ritmo de progreso, y lo importante es que estás dando lo mejor de ti en cada entrenamiento y en cada competencia. Celebra tus avances y aprende de tus errores, ya que cada experiencia te brinda la oportunidad de mejorar.</p>
                 </div>
                 <div class="col-md-5 order-md-1">
-                    <img width="500" height="500" class="img-fluid mx-auto" src="./resources/imagenes/intermedio.png" alt="imagenIntermedio">
+                    <img width="300" class="img-fluid mx-auto" src="./resources/imagenes/intermedio.jpg" alt="imagenIntermedio">
                 </div>
             </article>
 
@@ -233,7 +245,7 @@ if (isset($_GET['accion'])) {
                     <p class="lead">No importa cuánto tiempo hayas estado involucrado(a) en el deporte, lo que importa es tu dedicación y tu pasión por mejorar. Cada día que te levantas y te esfuerzas por ser un poco mejor, estás marcando la diferencia. Aprecia y celebra cada pequeño logro en tu camino, ya que son los cimientos para construir grandes triunfos en el futuro.</p>
                 </div>
                 <div class="col-md-5">
-                    <img width="500" height="500" class="img-fluid mx-auto" src="./resources/imagenes/avanzado.png" alt="imagenAvanzado">
+                    <img width="500" height="500" class="img-fluid mx-auto" src="./resources/imagenes/avanzado.jpg" alt="imagenAvanzado">
                 </div>
             </article>
         </section>
