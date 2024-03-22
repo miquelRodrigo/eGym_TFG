@@ -148,7 +148,7 @@ if (isset($_POST['sendLogin'])) {
                                     }
 
                                     echo '<hr />
-                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    <div class="text-center"><a class="btn btn-danger" href="./../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';

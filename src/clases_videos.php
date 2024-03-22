@@ -22,7 +22,6 @@ $comentarios = Comentario::getAllByClase($claseActual['idClase']);
 // se procesa el formulario para eliminar al usuario seleccionado y borrar la foto
 if (isset($_POST['delete'])) {
     Comentario::delete($_POST["idComentario"]);
-    header('Location: ./clases_videos.php');
 }
 ?>
 

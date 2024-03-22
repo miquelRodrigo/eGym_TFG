@@ -55,7 +55,7 @@ if (isset($_POST["submit"])) {
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
             <div class="container-fluid">
-                <a href="#" class="navbar-brand mx-4">
+                <a href="./../index.php" class="navbar-brand mx-4">
                     <h1><b>e</b>Gym</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -124,7 +124,7 @@ if (isset($_POST["submit"])) {
                                     }
 
                                     echo '<hr />
-                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    <div class="text-center"><a class="btn btn-danger" href="./../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
@@ -211,7 +211,7 @@ if (isset($_POST["submit"])) {
                                 </div>
                             </div>
                         </div>
-                        <?
+                        <?php
                         // niveles intermedios y avanzados solo disponibles para usuarios registrados
                         if (isset($usuario)) {
                         ?>
@@ -255,7 +255,7 @@ if (isset($_POST["submit"])) {
                                     </div>
                                 </div>
                             </div>
-                        <? } ?>
+                        <?php } ?>
                     </div>
                 </article>
             </div>
