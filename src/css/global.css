@@ -3,6 +3,10 @@ body {
   color: #5a5a5a;
 }
 
+#adminMain {
+  height: 500px;
+}
+
 section {
   margin-bottom: 4rem;
 }

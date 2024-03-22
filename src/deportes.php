@@ -16,6 +16,7 @@ if (isset($_SESSION['user'])) {
     $claseThumbnail = Clase::getByDeporteAndNivel($deporteActual['idDeporte'], $nivelUsuario['nivel'])[0];
 } else {
     $claseThumbnail = Clase::getByDeporteAndNivel($deporteActual['idDeporte'], 'principiante')[0];
+    $nivelUsuario['nivel'] = 'principiante';
 }
 
 // Información clases
@@ -23,6 +24,16 @@ $clases = Clase::getByDeporte($deporteActual['idDeporte']);
 
 // Niveles de deporte
 $niveles = ['principiante', 'intermedio', 'avanzado'];
+
+// Formulario subir de nivel
+if (isset($_POST["submit"])) {
+    if ($nivelUsuario['nivel'] == 'principiante') {
+        Usuario::updateUsuarioDeporte($usuario['dni'], $deporteActual['idDeporte'], 'intermedio');
+    } else {
+        Usuario::updateUsuarioDeporte($usuario['dni'], $deporteActual['idDeporte'], 'avanzado');
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +55,7 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
             <div class="container-fluid">
-                <a href="../index.php" class="navbar-brand mx-4">
+                <a href="#" class="navbar-brand mx-4">
                     <h1><b>e</b>Gym</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -74,16 +85,18 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
                                     ];
 
                                     for ($i = 0; $i < count($deportes); $i++) {
-                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
+                                        echo '<li><a class="dropdown-item" href="./deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <?php if (isset($usuario)) {
+                                echo '<li class="nav-item">
                                 <a class="nav-link" href="./calculadora.php">
                                     <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
                                 </a>
-                            </li>
+                                </li>';
+                            } ?>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php
                                 if (isset($_SESSION['user'])) {
@@ -100,13 +113,18 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
                                     Perfil</a>';
 
                                     if ($usuario['tipo'] == 'administrador') {
-                                        echo '<a class="dropdown-item" href="#">
+                                        echo '
+                                        <a class="dropdown-item" href="./subir_video.php">
+                                        <i class="fa-solid fa-video me-1"></i>
+                                        Subir video</a>
+                                        <a class="dropdown-item" href="./admin_users.php">
                                         <i class="fa-solid fa-user-gear me-1"></i>
-                                        Administración de usuarios</a>';
+                                        Administración de usuarios</a>
+                                        ';
                                     }
 
                                     echo '<hr />
-                                    <div class="text-center"><a class="btn btn-danger" href="../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
@@ -124,10 +142,40 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
         </nav>
     </header>
 
-    <main class="mt-5">
-        <section>
-            <div style="background-image: url('../resources/imagenes/deportes/<?= $deporteActual['imagen'] ?>'); height: 700px;" class="container">
-                <h2><b><?= $deporteActual['nombre'] ?></b></h2>
+    <main class="mt-5 m-3">
+        <section class="row">
+            <div class="col-12 col-md-6">
+                <img class="img-fluid d-block w-100 h-100" src="../resources/imagenes/clases/<?= $deporteActual['imagen'] ?>" height="500">
+            </div>
+            <div class="col-12 col-md-4">
+                <h2 class="h1"><b><?= $deporteActual['nombre'] ?></b></h2>
+                <p class="mt-4"><?= $deporteActual['descripcion'] ?></p>
+                <div class="row">
+                    <div class="col-6">
+                        <?php
+                        if ($nivelUsuario['nivel'] == 'principiante') {
+                            echo '<img class="img-fluid d-block w-100 h-100" src="../resources/imagenes/principiante.jpg" height="500">';
+                        } elseif ($nivelUsuario['nivel'] == 'intermedio') {
+                            echo '<img class="img-fluid d-block w-100 h-100" src="../resources/imagenes/intermedio.jpg" height="500">';
+                        } else {
+                            echo '<img class="img-fluid d-block w-100 h-100" src="../resources/imagenes/avanzado.jpg" height="500">';
+                        }
+                        ?>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h3 class="mt-5"><?= $nivelUsuario['nivel'] ?></h3>
+                        <?php if (isset($usuario)) {
+                            if ($nivelUsuario['nivel'] != 'avanzado') {
+                                echo '<p>¿Has acabado todos los videos?</p>'; ?>
+                                <form name="frmSubirNivel" id="frmSubirNivel" method="post" action="#">
+                                    <button type="submit" name="submit" class="btn btn-secondary">SUBE DE NIVEL</button>
+                                </form>
+                        <?php } else {
+                                echo '<p>¡ENHORABUENA, HAS ALCANZADO EL MÁXIMO NIVEL</p>';
+                            }
+                        } ?>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -163,46 +211,51 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                    Intermedio
-                                </button>
-                            </h2>
-                            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <?php
-                                    foreach ($clases as $clase) {
-                                        if ($clase['nivel'] == $niveles[1]) {
-                                            echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
-                                                . $clase['nombre'] .
-                                                '</a></div>';
+                        <?
+                        // niveles intermedios y avanzados solo disponibles para usuarios registrados
+                        if (isset($usuario)) {
+                        ?>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                        Intermedio
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <?php
+                                        foreach ($clases as $clase) {
+                                            if ($clase['nivel'] == $niveles[1]) {
+                                                echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
+                                                    . $clase['nombre'] .
+                                                    '</a></div>';
+                                            }
                                         }
-                                    }
-                                    ?>
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                    Avanzado
-                                </button>
-                            </h2>
-                            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">
-                                    <?php
-                                    foreach ($clases as $clase) {
-                                        if ($clase['nivel'] == $niveles[2]) {
-                                            echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
-                                                . $clase['nombre'] .
-                                                '</a></div>';
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                        Avanzado
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <?php
+                                        foreach ($clases as $clase) {
+                                            if ($clase['nivel'] == $niveles[2]) {
+                                                echo '<div class="container mb-4 d-flex justify-content-start"><a href="./clases_videos.php?clase=' . $clase['idClase'] . '" target="video_clase">'
+                                                    . $clase['nombre'] .
+                                                    '</a></div>';
+                                            }
                                         }
-                                    }
-                                    ?>
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <? } ?>
                     </div>
                 </article>
             </div>

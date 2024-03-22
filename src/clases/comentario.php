@@ -70,6 +70,32 @@ class Comentario
     }
 
     /**
+     * Método que elimina un comentario en base de datos
+     */
+    public static function delete($idComentario)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            $conexion->beginTransaction();
+
+            $delete = $conexion->prepare('DELETE FROM comentarios WHERE idComentario = :idComentario');
+            $delete->bindParam(':idComentario', $idComentario);
+
+            if (!$delete->execute()) {
+                throw new PDOException();
+            }
+
+            $conexion->commit();
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
+    /**
      * Método que devuelve todos los comentarios de una clase
      */
     public static function getAllByClase($idClase)

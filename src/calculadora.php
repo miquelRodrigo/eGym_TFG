@@ -36,7 +36,7 @@ if (isset($_POST['sendCalculadora'])) {
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
             <div class="container-fluid">
-                <a href="../index.php" class="navbar-brand mx-4">
+                <a href="#" class="navbar-brand mx-4">
                     <h1><b>e</b>Gym</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -66,16 +66,18 @@ if (isset($_POST['sendCalculadora'])) {
                                     ];
 
                                     for ($i = 0; $i < count($deportes); $i++) {
-                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
+                                        echo '<li><a class="dropdown-item" href="./deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <?php if (isset($usuario)) {
+                                echo '<li class="nav-item">
                                 <a class="nav-link" href="./calculadora.php">
                                     <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
                                 </a>
-                            </li>
+                                </li>';
+                            } ?>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php
                                 if (isset($_SESSION['user'])) {
@@ -92,13 +94,18 @@ if (isset($_POST['sendCalculadora'])) {
                                     Perfil</a>';
 
                                     if ($usuario['tipo'] == 'administrador') {
-                                        echo '<a class="dropdown-item" href="#">
+                                        echo '
+                                        <a class="dropdown-item" href="./subir_video.php">
+                                        <i class="fa-solid fa-video me-1"></i>
+                                        Subir video</a>
+                                        <a class="dropdown-item" href="./admin_users.php">
                                         <i class="fa-solid fa-user-gear me-1"></i>
-                                        Administración de usuarios</a>';
+                                        Administración de usuarios</a>
+                                        ';
                                     }
 
                                     echo '<hr />
-                                    <div class="text-center"><a class="btn btn-danger" href="../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
@@ -216,26 +223,26 @@ if (isset($_POST['sendCalculadora'])) {
 
         <?php
         if (isset($calorias)) {
-            echo 
+            echo
             '<section class="container shadow-lg p-3 mb-5 bg-white rounder d-flex flex-column text-center justify-content-center">
                 <h2 class="h5 mb-3 text-center"> <b>Resultado</b> </h2>
                 <p>
-                    Su consumo diario de calorías es de <b>'. $calorias .'</b>. Conociendo éste dato podemos ofrecerle dos opciones según lo que necesite.
+                    Su consumo diario de calorías es de <b>' . $calorias . '</b>. Conociendo éste dato podemos ofrecerle dos opciones según lo que necesite.
                 </p>
-                <div class="d-flex d-grid gap-5">
-                    <article>
+                <div class="row">
+                    <article class="col-12 col-md-6">
                         <h3 class="h5 mb-3 text-center"> <b>Bajar de peso</b> </h3>
                         <p>
                         Para mantener una bajada de peso controlada y saludable deberías consumir entre 200 y 500 calorías menos al dia, 
-                        lo que en tu caso serían entre <b>'. $calorias - 200 .'</b> y <b>'. $calorias - 500 .'</b>.
+                        lo que en tu caso serían entre <b>' . $calorias - 200 . '</b> y <b>' . $calorias - 500 . '</b>.
                         Y recuerda, esas calorías las tienes que ingerir de forma saludable, no con comidas ultraprocesadas o de mala calidad nutricional.
                         </p>
                     </article>
-                    <article>
+                    <article class="col-12 col-md-6">
                         <h3 class="h5 mb-3 text-center"> <b>Bajar de peso</b> </h3>
                         <p>
                         Para mantener una subida de peso controlada y saludable deberías consumir entre 200 y 500 calorías más al dia, 
-                        lo que en tu caso serían entre <b>'. $calorias + 200 .'</b> y <b>'. $calorias + 500 .'</b>.
+                        lo que en tu caso serían entre <b>' . $calorias + 200 . '</b> y <b>' . $calorias + 500 . '</b>.
                         Y recuerda, esas calorías las tienes que ingerir de forma saludable, no con comidas ultraprocesadas o de mala calidad nutricional.
                         </p>
                     </article>

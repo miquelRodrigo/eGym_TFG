@@ -79,7 +79,7 @@ if (isset($_POST['sendLogin'])) {
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
             <div class="container-fluid">
-                <a href="../index.php" class="navbar-brand mx-4">
+                <a href="#" class="navbar-brand mx-4">
                     <h1><b>e</b>Gym</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -109,20 +109,55 @@ if (isset($_POST['sendLogin'])) {
                                     ];
 
                                     for ($i = 0; $i < count($deportes); $i++) {
-                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
+                                        echo '<li><a class="dropdown-item" href="./deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <?php if (isset($usuario)) {
+                                echo '<li class="nav-item">
                                 <a class="nav-link" href="./calculadora.php">
                                     <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
                                 </a>
-                            </li>
+                                </li>';
+                            } ?>
                             <li class="nav-item" style="justify-self: flex-end;">
-                                <a class="nav-link" href="#">
-                                    Iniciar sesión <i class="fa-solid fa-right-to-bracket ms-1"></i>
-                                </a>
+                                <?php
+                                if (isset($_SESSION['user'])) {
+                                    echo '<li class="nav-item dropdown">';
+                                    echo '<a class="nav-link dropdown-toggle" href="#" id="navbarUsuarioMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">'
+                                        . $usuario['nombre'] . ' ' . $usuario['apellido1'] . ' ' . $usuario['apellido2'];
+
+                                    echo '<img src="../resources/fotos_usuarios/' . $usuario['dni'] . '.png" alt="imgPerfil" width="30" height="30" style="border-radius: 100%;" class="ms-1">';
+
+                                    echo '</a><ul class="dropdown-menu" aria-labelledby="navbarUsuarioMenu">
+                                    <li>
+                                    <a class="dropdown-item" href="./perfil.php">
+                                    <i class="fa-solid fa-address-card me-1"></i>
+                                    Perfil</a>';
+
+                                    if ($usuario['tipo'] == 'administrador') {
+                                        echo '
+                                        <a class="dropdown-item" href="./subir_video.php">
+                                        <i class="fa-solid fa-video me-1"></i>
+                                        Subir video</a>
+                                        <a class="dropdown-item" href="./admin_users.php">
+                                        <i class="fa-solid fa-user-gear me-1"></i>
+                                        Administración de usuarios</a>
+                                        ';
+                                    }
+
+                                    echo '<hr />
+                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    </li>
+                                </ul>';
+                                    echo '</li>';
+                                } else {
+                                    echo '<a class="nav-link" href="./register_login.php">
+                                    Iniciar sesión<i class="fa-solid fa-right-to-bracket ms-1"></i>
+                                    </a>';
+                                }
+                                ?>
                             </li>
                         </ul>
                     </div>

@@ -11,13 +11,11 @@ class Clase
 
     // Constructor
     function __construct(
-        $idClase,
         $nombre,
         $video,
         $nivel,
         $idDeporte,
     ) {
-        $this->idClase = $idClase;
         $this->nombre = $nombre;
         $this->video = $video;
         $this->nivel = $nivel;
@@ -54,8 +52,10 @@ class Clase
             $core = Core::getInstancia();
             $conexion = $core->conexion;
 
+            $conexion->beginTransaction();
+
             $insert = $conexion->prepare('INSERT INTO clases (nombre, video, nivel, idDeporte)
-                VALUES (:nombre, :video, :nivel, :nombreDeporte);');
+                VALUES (:nombre, :video, :nivel, :idDeporte);');
             $insert->bindParam(':nombre', $clase->nombre);
             $insert->bindParam(':video', $clase->video);
             $insert->bindParam(':nivel', $clase->nivel);
@@ -66,14 +66,16 @@ class Clase
             }
 
             $conexion->commit();
+            return true;
         } catch (PDOException $e) {
             $conexion->rollBack();
             echo 'Falló la conexión: ' . $e->getMessage();
+            return false;
         }
     }
 
     /**
-     * Método
+     * Método que devuelve una clase
      */
     public static function getClaseById($idClase) 
     {
@@ -119,7 +121,7 @@ class Clase
     }
 
     /**
-     * 
+     * Método que devuelve un array de clases
      */
     public static function getByDeporteAndNivel($idDeporte, $nivel)
     {

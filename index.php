@@ -66,11 +66,13 @@ if (isset($_GET['accion'])) {
                                     ?>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <?php if (isset($usuario)) {
+                                echo '<li class="nav-item">
                                 <a class="nav-link" href="./src/calculadora.php">
                                     <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
                                 </a>
-                            </li>
+                                </li>';
+                            } ?>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php
                                 if (isset($_SESSION['user'])) {
@@ -87,12 +89,14 @@ if (isset($_GET['accion'])) {
                                     Perfil</a>';
 
                                     if ($usuario['tipo'] == 'administrador') {
-                                        echo '<a class="dropdown-item" href="#">
+                                        echo '
+                                        <a class="dropdown-item" href="src/subir_video.php">
+                                        <i class="fa-solid fa-video me-1"></i>
+                                        Subir video</a>
+                                        <a class="dropdown-item" href="src/admin_users.php">
                                         <i class="fa-solid fa-user-gear me-1"></i>
                                         Administración de usuarios</a>
-                                        <a class="dropdown-item" href="src/subir_video.php">
-                                        <i class="fa-solid fa-user-gear me-1"></i>
-                                        Subir video</a>';
+                                        ';
                                     }
 
                                     echo '<hr />
@@ -111,7 +115,7 @@ if (isset($_GET['accion'])) {
                     </div>
                 </div>
             </div>
-        </nav> 
+        </nav>
     </header>
 
     <main>
@@ -131,8 +135,8 @@ if (isset($_GET['accion'])) {
                             <div class="carousel-caption text-start">
                                 <h1>¡Cambia tu vida!</h1>
                                 <p>Sentirse mejor con uno mismo nunca fue tan fácil</p>
-                                <?php 
-                                if(!isset($_SESSION['user'])) {
+                                <?php
+                                if (!isset($_SESSION['user'])) {
                                     echo '<p><a class="btn btn-md btn-dark" href="./src/register_login.php">EMPIEZA YA</a></p>';
                                 }
                                 ?>

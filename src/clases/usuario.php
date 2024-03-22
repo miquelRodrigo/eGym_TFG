@@ -276,39 +276,60 @@ class Usuario
         }
     }
 
+    /**
+     * Método que devuelve el usuario por el dni
+     */
+    public static function getUsuarioByDni($dni)
+    {
+        try {
+            // Se crea la conexión
+            $core = Core::getInstancia();
+            $conexion = $core->conexion;
+
+            // Se consulta la tabla usuarios_deportes
+            $select = $conexion->prepare('SELECT * FROM usuarios WHERE dni = :dni;');
+            $select->bindParam(':dni', $dni);
+            $select->execute();
+
+            return $select->fetch();
+        } catch (PDOException $e) {
+            echo 'Falló la conexión: ' . $e->getMessage();
+        }
+    }
+
     // devuelve un array con todos los usuarios
-    /* public function arrayUsuarios()
+    public static function arrayUsuarios($dni)
     {
         $arrayUsers = array();
-        
+
         try {
             // Se crea la conexión
             $core = Core::getInstancia();
             $conexion = $core->conexion;
 
             // Query
-            $select = $conexion->query('SELECT dni, nombreUsuario, apellido1, apellido2, contraseña, 
-            mail, imagenUsuario, tipoUsuario
-            FROM usuarios WHERE tipoUsuario = "usuario"');
+            $select = $conexion->prepare('SELECT dni, nombre, apellido1, apellido2, pass, 
+            email, imagen, tipo FROM usuarios WHERE dni != :dniUser');
+            $select->bindParam(':dniUser', $dni);
             $select->execute();
 
             //se recorre para rellenar clases usuario y añadirlas al array
             while ($registro = $select->fetch()) {
                 array_push($arrayUsers, new Usuario(
                     $registro['dni'],
-                    $registro['nombreUsuario'],
+                    $registro['nombre'],
                     $registro['apellido1'],
                     $registro['apellido2'],
-                    $registro['contraseña'],
-                    $registro['mail'],
-                    $registro['imagenUsuario'],
-                    $registro['tipoUsuario']
+                    $registro['pass'],
+                    $registro['email'],
+                    $registro['imagen'],
+                    $registro['tipo']
                 ));
             }
+
+            return $arrayUsers;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }
-
-        return $arrayUsers;
-    } */
+    }
 }

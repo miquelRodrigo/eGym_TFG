@@ -5,6 +5,8 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     $usuario = unserialize($_SESSION['user']);
+} else {
+    header('Location: ./../index.php');
 }
 
 if (isset($_GET['accion'])) {
@@ -16,6 +18,14 @@ if (isset($_POST['sendVideo'])) {
     $nombreClase = $_POST['nombreClase'];
     $deporte = $_POST['deporte'];
     $dificultad = $_POST['dificultad'];
+    $nombreVideo =  str_replace(" ", "_", $nombreClase) . '.mp4';
+
+
+    $clase = new Clase($nombreClase, $nombreVideo, $dificultad, $deporte);
+    if (Clase::insert($clase)) {
+        $ruta = './../resources/videos';
+        move_uploaded_file($_FILES['videoClase']['tmp_name'], $ruta . "/" . $nombreVideo);
+    }
 }
 ?>
 
@@ -38,7 +48,7 @@ if (isset($_POST['sendVideo'])) {
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
             <div class="container-fluid">
-                <a href="../index.php" class="navbar-brand mx-4">
+                <a href="#" class="navbar-brand mx-4">
                     <h1><b>e</b>Gym</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -68,16 +78,18 @@ if (isset($_POST['sendVideo'])) {
                                     ];
 
                                     for ($i = 0; $i < count($deportes); $i++) {
-                                        echo '<li><a class="dropdown-item" href="deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
+                                        echo '<li><a class="dropdown-item" href="./deportes.php?deporte=' . $deportes[$i]['nombre'] . '">' . $iconos[$i] . $deportes[$i]['nombre'] . '</a></li>';
                                     }
                                     ?>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            <?php if (isset($usuario)) {
+                                echo '<li class="nav-item">
                                 <a class="nav-link" href="./calculadora.php">
                                     <i class="fa-solid fa-calculator me-1"></i>Calculadora de calorías
                                 </a>
-                            </li>
+                                </li>';
+                            } ?>
                             <li class="nav-item" style="justify-self: flex-end;">
                                 <?php
                                 if (isset($_SESSION['user'])) {
@@ -94,13 +106,18 @@ if (isset($_POST['sendVideo'])) {
                                     Perfil</a>';
 
                                     if ($usuario['tipo'] == 'administrador') {
-                                        echo '<a class="dropdown-item" href="#">
+                                        echo '
+                                        <a class="dropdown-item" href="./subir_video.php">
+                                        <i class="fa-solid fa-video me-1"></i>
+                                        Subir video</a>
+                                        <a class="dropdown-item" href="./admin_users.php">
                                         <i class="fa-solid fa-user-gear me-1"></i>
-                                        Administración de usuarios</a>';
+                                        Administración de usuarios</a>
+                                        ';
                                     }
 
                                     echo '<hr />
-                                    <div class="text-center"><a class="btn btn-danger" href="../index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
+                                    <div class="text-center"><a class="btn btn-danger" href="index.php?accion=cerrar_sesion"><i class="fa-solid fa-right-from-bracket me-1"></i>Cerrar Sesión</a></div>
                                     </li>
                                 </ul>';
                                     echo '</li>';
@@ -122,21 +139,22 @@ if (isset($_POST['sendVideo'])) {
             <h2 class="h5 mb-3 text-center"> <b>Subir nuevo video</b> </h2>
             <hr>
 
-            <form class="row g-3" name="frmSubirVideo" id="frmSubirVideo" method="post" action="#" enctype="multipart/form-data" novalidate>
+            <form class="row g-3" name="frmSubirVideo" id="frmSubirVideo" method="post" action="#" enctype="multipart/form-data">
 
                 <div class="form-floating col-md-6">
                     <input type="text" class="form-control" id="nombreClase" name="nombreClase" placeholder="nombre" required>
-                    <label for="apellido1">Nombre de la clase</label>
+                    <label for="nombreClase">Nombre de la clase</label>
                     <span id="nombreClase-info" class="invalid-feedback"></span>
                 </div>
 
                 <select name="deporte" id="deporte" class="form-floating col-md-6">
-                    <option value=1>Boxeo</option>
-                    <option value=2>Calistenia</option>
-                    <option value=3>Crossfit</option>
-                    <option value=4>Cycling</option>
-                    <option value=5>Natacion</option>
+                    <option value="1">Boxeo</option>
+                    <option value="2">Calistenia</option>
+                    <option value="3">Crossfit</option>
+                    <option value="4">Cycling</option>
+                    <option value="5">Natacion</option>
                 </select>
+
 
                 <div class="form-floating col-md-6">
                     <legend class="float-none w-auto px-3 h6">Dificultad de la clase</legend>
@@ -174,7 +192,7 @@ if (isset($_POST['sendVideo'])) {
         </section>
     </main>
 
-    <footer class="w-100 position-absolute bottom-0 end-0" style="background-color: grey;">
+    <footer class="w-100" style="background-color: grey;">
         <h2 class="none">Footer</h2>
         <div class="d-flex my-5 flex-column text-center justify-content-center">
             <div class="p-0">
