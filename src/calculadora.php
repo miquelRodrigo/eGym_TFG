@@ -241,7 +241,7 @@ if (isset($_POST['sendCalculadora'])) {
                         </p>
                     </article>
                     <article class="col-12 col-md-6">
-                        <h3 class="h5 mb-3 text-center"> <b>Bajar de peso</b> </h3>
+                        <h3 class="h5 mb-3 text-center"> <b>Subir de peso</b> </h3>
                         <p>
                         Para mantener una subida de peso controlada y saludable deberías consumir entre 200 y 500 calorías más al dia, 
                         lo que en tu caso serían entre <b>' . $calorias + 200 . '</b> y <b>' . $calorias + 500 . '</b>.
