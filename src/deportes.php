@@ -29,9 +29,11 @@ $niveles = ['principiante', 'intermedio', 'avanzado'];
 if (isset($_POST["submit"])) {
     if ($nivelUsuario['nivel'] == 'principiante') {
         Usuario::updateUsuarioDeporte($usuario['dni'], $deporteActual['idDeporte'], 'intermedio');
-    } else {
+    } elseif ($nivelUsuario['nivel'] == 'intermedio') {
         Usuario::updateUsuarioDeporte($usuario['dni'], $deporteActual['idDeporte'], 'avanzado');
     }
+    header('Location: ./deportes.php?deporte='.$deporteActual['nombre'].'');
+    
 }
 
 ?>

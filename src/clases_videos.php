@@ -22,6 +22,7 @@ $comentarios = Comentario::getAllByClase($claseActual['idClase']);
 // se procesa el formulario para eliminar al usuario seleccionado y borrar la foto
 if (isset($_POST['delete'])) {
     Comentario::delete($_POST["idComentario"]);
+    header('Location: ./clases_videos.php?clase='.$claseActual['idClase'].'');
 }
 ?>
 
@@ -75,7 +76,7 @@ if (isset($_POST['delete'])) {
                 $comentador = Usuario::getUsuarioByDni($comentario['dni']);
                 echo '<div class="card mt-5" style="width: 18rem;">';
 
-                if ($usuario['tipo'] == 'administrador') {
+                if (isset($usuario) && $usuario['tipo'] == 'administrador') {
                     echo '<form method="post" action="#" class="m-2 position-absolute top-0 end-0">
                         <input type="hidden" name="idComentario" value="' . $comentario['idComentario'] . '">
                         <button type="submit" name="delete" class="btn btn-light"><span style="color: #e90707;"> x </span></button>
